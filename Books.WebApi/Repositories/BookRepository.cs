@@ -1,9 +1,9 @@
-﻿using BooksApi.Models;
+﻿using Books.WebApi.Models;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BooksApi.Services
+namespace Books.WebApi.Services
 {
     public class BookRepository
     {

@@ -1,9 +1,9 @@
-﻿using BooksApi.Models;
-using BooksApi.Services;
+﻿using Books.WebApi.Models;
+using Books.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace BooksApi.Controllers
+namespace Books.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

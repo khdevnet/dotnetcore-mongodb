@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
-namespace BooksApi.Models
+namespace Books.WebApi.Models
 {
     public class Book
     {
