@@ -7,11 +7,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Books.Data.NoSql\Books.Data.NoSql.csproj" />
     <ProjectReference Include="..\Books.Data.Sql\Books.Data.Sql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

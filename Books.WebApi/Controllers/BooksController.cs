@@ -1,6 +1,7 @@
-﻿using Books.WebApi.Models;
-using Books.WebApi.Services;
+﻿using Books.Domain;
+using Books.Domain.Read.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Books.WebApi.Controllers
@@ -9,21 +10,21 @@ namespace Books.WebApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly BookRepository _bookService;
+        private readonly IBookReadRepository bookReadRepository;
 
-        public BooksController(BookRepository bookService)
+        public BooksController(IBookReadRepository bookReadRepository)
         {
-            _bookService = bookService;
+            this.bookReadRepository = bookReadRepository;
         }
 
         [HttpGet]
-        public ActionResult<List<Book>> Get() =>
-            _bookService.Get();
+        public ActionResult<IReadOnlyCollection<Book>> Get() =>
+            Ok(bookReadRepository.Get());
 
-        [HttpGet("{id:length(24)}", Name = "GetBook")]
-        public ActionResult<Book> Get(string id)
+        [HttpGet("{id}", Name = "GetBook")]
+        public ActionResult<Book> Get(Guid id)
         {
-            var book = _bookService.Get(id);
+            var book = bookReadRepository.Get(id);
 
             if (book == null)
             {
@@ -36,39 +37,9 @@ namespace Books.WebApi.Controllers
         [HttpPost]
         public ActionResult<Book> Create(Book book)
         {
-            _bookService.Create(book);
+            bookReadRepository.Create(book);
 
             return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
-        }
-
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Book bookIn)
-        {
-            var book = _bookService.Get(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            _bookService.Update(id, bookIn);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
-        {
-            var book = _bookService.Get(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            _bookService.Remove(book.Id);
-
-            return NoContent();
         }
     }
 }

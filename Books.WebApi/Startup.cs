@@ -1,7 +1,9 @@
+using Books.Data.NoSql.Database;
 using Books.Data.Sql;
 using Books.Data.Sql.Database;
-using Books.WebApi.Models;
-using Books.WebApi.Services;
+using Books.Domain.Extensibility.Provider;
+using Books.WebApi.Configurations;
+using Books.WebApi.Provider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +25,6 @@ namespace Books.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-            string connectionString = Configuration.GetConnectionString(nameof(BooksSqlDbContext));
-
-            services.AddSqlDbContext(connectionString);
-
             services.AddCors(options =>
             {
                 options.AddPolicy(
@@ -38,13 +35,14 @@ namespace Books.WebApi
                         .AllowCredentials());
             });
 
-            services.Configure<BookstoreDatabaseSettings>(
-                Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
+            services.AddSqlDbContext(Configuration.GetConnectionString(nameof(BooksSqlDbContext)));
+            services.RegisterSqlServices();
 
-            services.AddSingleton<IBookstoreDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+            services.AddNoSqlDbContext(Configuration.GetSection(nameof(BooksNoSqlDbContextSettings)));
+            services.RegisterNoSqlServices();
 
-            services.AddSingleton<BookRepository>();
+            services.AddSingleton<IFileStoragePathProvider, FileStoragePathProvider>();
+            services.AddSingleton<IBookFilePathProvider, BookFilePathProvider>();
 
             services.AddMvc()
                     .AddJsonOptions(options => options.UseMemberCasing())
@@ -53,6 +51,9 @@ namespace Books.WebApi
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.ApplySqlDbMigrations();
+            app.ApplyNoSqlDbMigrations();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

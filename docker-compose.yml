@@ -19,3 +19,17 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+  postgres:
+    image: 'postgres:9.6.2'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '123456'
+
+  postgres-express:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

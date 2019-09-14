@@ -1,9 +1,12 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 
-namespace Books.Domain
+namespace Books.Data.NoSql.Entity
 {
     public class Book
     {
+        [BsonId]
         public Guid Id { get; set; }
 
         public string Name { get; set; }
