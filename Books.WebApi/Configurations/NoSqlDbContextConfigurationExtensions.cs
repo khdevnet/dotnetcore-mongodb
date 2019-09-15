@@ -7,6 +7,8 @@ using Books.Domain.Read.Repository;
 using Books.Data.NoSql.Repository;
 using Books.Data.Sql.Database;
 using Books.Data.Sql.Repository;
+using Books.Data.UnitOfWork;
+using System;
 
 namespace Books.WebApi.Configurations
 {
@@ -23,7 +25,8 @@ namespace Books.WebApi.Configurations
 
         public static void RegisterNoSqlServices(this IServiceCollection services)
         {
-            services.AddSingleton<IBookReadRepository, BookReadRepository>();
+            services.AddScoped<BooksNoSqlDbContext>();
+            services.AddTransient<IBookReadRepository, BookReadRepository>();
         }
 
         public static void ApplyNoSqlDbMigrations(this IApplicationBuilder app)
@@ -36,6 +39,7 @@ namespace Books.WebApi.Configurations
                 bookReadRepository.Clear();
                 var books = bookWriteRepository.Get();
                 bookReadRepository.CreateBulk(books);
+
             }
         }
     }

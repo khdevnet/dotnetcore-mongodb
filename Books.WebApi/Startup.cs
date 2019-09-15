@@ -41,6 +41,8 @@ namespace Books.WebApi
             services.AddNoSqlDbContext(Configuration.GetSection(nameof(BooksNoSqlDbContextSettings)));
             services.RegisterNoSqlServices();
 
+            services.RegisterUnitOfWorkServices();
+
             services.AddSingleton<IFileStoragePathProvider, FileStoragePathProvider>();
             services.AddSingleton<IBookFilePathProvider, BookFilePathProvider>();
 

@@ -1,4 +1,5 @@
-﻿using Books.Domain;
+﻿using Books.Core;
+using Books.Domain;
 using Books.Domain.Extensibility.Provider;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Books.Data.Sql.Database
 {
-    public class BooksSqlDbContext : DbContext
+    public class BooksSqlDbContext : DbContext, ITransactionDbContext
     {
         private readonly IBookFilePathProvider bookFilePathProvider;
 
@@ -68,5 +69,10 @@ namespace Books.Data.Sql.Database
         }
 
         private string GetBookPath(string fileName, string authorName) => bookFilePathProvider.GetPath(fileName, authorName);
+
+        public ITransaction CreateTransaction()
+        {
+            return new SqlTransaction(this);
+        }
     }
 }

@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Books.Data.NoSql\Books.Data.NoSql.csproj" />
+    <ProjectReference Include="..\Books.Data.Sql\Books.Data.Sql.csproj" />
     <ProjectReference Include="..\Books.Domain\Books.Domain.csproj" />
   </ItemGroup>
 

@@ -10,46 +10,35 @@ namespace Books.Data.NoSql.Repository
 {
     public class BookReadRepository : IBookReadRepository
     {
-        private readonly IMongoCollection<Book> _books;
-        private readonly string bookCollectionName;
-        private readonly IMongoDatabase dbContext;
+        private readonly BooksNoSqlDbContext dbContext;
 
-        public BookReadRepository(IBookNoSqlDbContextSettings settings)
+        public BookReadRepository(BooksNoSqlDbContext dbContext)
         {
-            var client = new MongoClient(settings.ConnectionString);
-
-            bookCollectionName = settings.BooksCollectionName;
-            dbContext = client.GetDatabase(settings.DatabaseName);
-            _books = dbContext.GetCollection<Book>(bookCollectionName);
+            this.dbContext = dbContext;
         }
 
         public IReadOnlyCollection<Domain.Book> Get() =>
-            _books.Find(book => true).ToList().Select(Map).ToList();
+            dbContext.Books.Find(book => true).ToList().Select(Map).ToList();
 
         public Domain.Book Get(Guid id) =>
-            Map(_books.Find<Book>(book => book.Id == id).FirstOrDefault());
+            Map(dbContext.Books.Find<Book>(book => book.Id == id).FirstOrDefault());
 
         public Domain.Book Add(Domain.Book book)
         {
             var bookEntity = Map(book);
-            _books.InsertOne(bookEntity);
+            dbContext.Books.InsertOne(bookEntity);
             return Map(bookEntity);
         }
 
         public IReadOnlyCollection<Domain.Book> CreateBulk(IReadOnlyCollection<Domain.Book> books)
         {
             var booksEntity = books.Select(Map);
-            _books.InsertMany(booksEntity);
+            dbContext.Books.InsertMany(booksEntity);
             return booksEntity.Select(Map).ToList();
         }
 
         public void Update(Guid id, Domain.Book bookIn) =>
-            _books.ReplaceOne(book => book.Id == id, Map(bookIn));
-
-        public void Clear()
-        {
-            dbContext.DropCollection(bookCollectionName);
-        }
+            dbContext.Books.ReplaceOne(book => book.Id == id, Map(bookIn));
 
         private Domain.Book Map(Book book)
         {
@@ -60,6 +49,11 @@ namespace Books.Data.NoSql.Repository
                 Author = book.Author,
                 Path = book.Path
             };
+        }
+
+        public void Clear()
+        {
+            dbContext.DropCollection<Book>();
         }
 
         private Book Map(Domain.Book book)

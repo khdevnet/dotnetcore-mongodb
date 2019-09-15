@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Books.Data.NoSql\Books.Data.NoSql.csproj" />
     <ProjectReference Include="..\Books.Data.Sql\Books.Data.Sql.csproj" />
+    <ProjectReference Include="..\Books.Data.UnitOfWork\Books.Data.UnitOfWork.csproj" />
   </ItemGroup>
 
   <ItemGroup>

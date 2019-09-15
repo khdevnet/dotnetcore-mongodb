@@ -12,18 +12,32 @@ namespace Books.Data.UnitOfWork.Repository
     {
         private readonly IBookWriteRepository bookWriteRepository;
         private readonly IBookReadRepository bookReadRepository;
+        private readonly Func<IUnitOfWork> unitOfWorkFactory;
 
-        public BookRepository(IBookWriteRepository bookWriteRepository, IBookReadRepository bookReadRepository)
+        public BookRepository(IBookWriteRepository bookWriteRepository, IBookReadRepository bookReadRepository, Func<IUnitOfWork> unitOfWorkFactory)
         {
             this.bookWriteRepository = bookWriteRepository;
             this.bookReadRepository = bookReadRepository;
+            this.unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public Book Add(Book book)
         {
-            var writeBook = bookWriteRepository.Add(book);
-            var readBook = bookReadRepository.Add(writeBook);
-            return readBook;
+            using (var trx = unitOfWorkFactory())
+            {
+                try
+                {
+                    var writeBook = bookWriteRepository.Add(book);
+                    var readBook = bookReadRepository.Add(writeBook);
+                    trx.Commit();
+                    return readBook;
+                }
+                catch (Exception)
+                {
+                    trx.Rollback();
+                    throw;
+                }
+            }
         }
     }
 }

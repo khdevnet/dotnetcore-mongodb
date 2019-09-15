@@ -1,4 +1,5 @@
 ﻿using Books.Domain;
+using Books.Domain.Extensibility.Repository;
 using Books.Domain.Read.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +12,12 @@ namespace Books.WebApi.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookReadRepository bookReadRepository;
+        private readonly IBookRepository bookRepository;
 
-        public BooksController(IBookReadRepository bookReadRepository)
+        public BooksController(IBookReadRepository bookReadRepository, IBookRepository bookRepository)
         {
             this.bookReadRepository = bookReadRepository;
+            this.bookRepository = bookRepository;
         }
 
         [HttpGet]
@@ -37,7 +40,7 @@ namespace Books.WebApi.Controllers
         [HttpPost]
         public ActionResult<Book> Create(Book book)
         {
-            bookReadRepository.Add(book);
+            bookRepository.Add(book);
 
             return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
         }
