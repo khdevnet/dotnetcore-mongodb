@@ -1,6 +1,4 @@
 ﻿using Books.Data.UnitOfWork;
-using Books.Data.UnitOfWork.Repository;
-using Books.Domain.Extensibility.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +11,6 @@ namespace Books.WebApi.Configurations
     {
         public static void RegisterUnitOfWorkServices(this IServiceCollection services)
         {
-            services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<Func<IUnitOfWork>>((container) => () => container.GetService<IUnitOfWork>());
         }

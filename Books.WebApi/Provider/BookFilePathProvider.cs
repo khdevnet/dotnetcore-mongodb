@@ -15,7 +15,7 @@ namespace Books.WebApi.Provider
 
         public string GetPath(string bookName, string authorName)
         {
-            return Path.Combine(BooksFolder, Sanitize(authorName + " " + bookName) + BookExt);
+            return Path.Combine(BooksFolder, Sanitize(authorName + " " + bookName) + BookExt;
         }
 
         private static string Sanitize(string bookName)

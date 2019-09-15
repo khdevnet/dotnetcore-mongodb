@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensibility\Service\" />
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\Books.Core\Books.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -34,8 +34,4 @@ namespace Books.Data.UnitOfWork
             noSqlTransaction.Rollback();
         }
     }
-
-    public interface IUnitOfWork : ITransaction
-    {
-    }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Books.Domain.Extensibility.Repository
+namespace Books.Domain.Extensibility.Service
 {
-    public interface IBookRepository
+    public interface IBookService
     {
         Book Add(Book book);
     }
