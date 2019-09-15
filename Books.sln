@@ -10,13 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Data.Sql", "Books.Data.Sql\Books.Data.Sql.csproj", "{A6798728-E03C-4CBA-9A23-8269A0B49ABA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data.Sql", "Books.Data.Sql\Books.Data.Sql.csproj", "{A6798728-E03C-4CBA-9A23-8269A0B49ABA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Data.NoSql", "Books.Data.NoSql\Books.Data.NoSql.csproj", "{2A61F24C-E75D-44D6-BDB3-ABD485574E31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data.NoSql", "Books.Data.NoSql\Books.Data.NoSql.csproj", "{2A61F24C-E75D-44D6-BDB3-ABD485574E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Data.FileStorage", "Books.Data.FileStorage\Books.Data.FileStorage.csproj", "{9F00C0C2-DF67-44DB-812C-3ECC8EC4490D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data.FileStorage", "Books.Data.FileStorage\Books.Data.FileStorage.csproj", "{9F00C0C2-DF67-44DB-812C-3ECC8EC4490D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Domain", "Books.Domain\Books.Domain.csproj", "{97BAEC42-6D19-42BD-B2D7-EC928EA9567E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Domain", "Books.Domain\Books.Domain.csproj", "{97BAEC42-6D19-42BD-B2D7-EC928EA9567E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Data.UnitOfWork", "Books.Data.UnitOfWork\Books.Data.UnitOfWork.csproj", "{56B27224-C051-41E7-92D6-EC1C1C596E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{97BAEC42-6D19-42BD-B2D7-EC928EA9567E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97BAEC42-6D19-42BD-B2D7-EC928EA9567E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97BAEC42-6D19-42BD-B2D7-EC928EA9567E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B27224-C051-41E7-92D6-EC1C1C596E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B27224-C051-41E7-92D6-EC1C1C596E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B27224-C051-41E7-92D6-EC1C1C596E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B27224-C051-41E7-92D6-EC1C1C596E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

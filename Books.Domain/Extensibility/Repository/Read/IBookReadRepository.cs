@@ -6,7 +6,7 @@ namespace Books.Domain.Read.Repository
 {
     public interface IBookReadRepository
     {
-        Book Create(Book book);
+        Book Add(Book book);
         IReadOnlyCollection<Book> CreateBulk(IReadOnlyCollection<Book> books);
         IReadOnlyCollection<Book> Get();
         Book Get(Guid id);

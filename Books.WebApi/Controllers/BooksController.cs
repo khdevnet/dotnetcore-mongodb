@@ -37,7 +37,7 @@ namespace Books.WebApi.Controllers
         [HttpPost]
         public ActionResult<Book> Create(Book book)
         {
-            bookReadRepository.Create(book);
+            bookReadRepository.Add(book);
 
             return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
         }

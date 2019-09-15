@@ -8,5 +8,7 @@ namespace Books.Data.Sql.Repository
     public interface IBookWriteRepository
     {
         IReadOnlyCollection<Book> Get();
+
+        Book Add(Book book);
     }
 }

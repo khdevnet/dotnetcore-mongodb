@@ -16,6 +16,13 @@ namespace Books.Data.Sql.Repository
             this.dbContext = dbContext;
         }
 
+        public Book Add(Book book)
+        {
+            dbContext.Add(book);
+            dbContext.SaveChanges();
+            return book;
+        }
+
         public IReadOnlyCollection<Book> Get() => dbContext.Books.ToList();
     }
 }

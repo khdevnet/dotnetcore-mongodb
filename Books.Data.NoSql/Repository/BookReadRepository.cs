@@ -29,7 +29,7 @@ namespace Books.Data.NoSql.Repository
         public Domain.Book Get(Guid id) =>
             Map(_books.Find<Book>(book => book.Id == id).FirstOrDefault());
 
-        public Domain.Book Create(Domain.Book book)
+        public Domain.Book Add(Domain.Book book)
         {
             var bookEntity = Map(book);
             _books.InsertOne(bookEntity);
