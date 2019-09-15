@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Books.WebApi.Provider
+namespace Books.Data.FileStorage.Provider
 {
     public class FileStoragePathProvider : IFileStoragePathProvider
     {

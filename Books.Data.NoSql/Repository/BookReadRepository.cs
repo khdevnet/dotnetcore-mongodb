@@ -45,7 +45,7 @@ namespace Books.Data.NoSql.Repository
             return new Domain.Book()
             {
                 Id = book.Id,
-                Name = book.Name,
+                Title = book.Title,
                 Author = book.Author,
                 Path = book.Path
             };
@@ -61,7 +61,7 @@ namespace Books.Data.NoSql.Repository
             return new Book()
             {
                 Id = book.Id,
-                Name = book.Name,
+                Title = book.Title,
                 Author = book.Author,
                 Path = book.Path
             };

@@ -41,8 +41,8 @@ namespace Books.Data.Sql.Database
                 .HasKey(p => p.Id);
 
             modelBuilder.Entity<Book>()
-                .Property(p => p.Name)
-                .HasColumnName("name")
+                .Property(p => p.Title)
+                .HasColumnName("title")
                 .HasMaxLength(255)
                 .IsRequired();
 
@@ -65,10 +65,10 @@ namespace Books.Data.Sql.Database
 
         private Book CreateBook(string bookName, string authorName)
         {
-            return new Book { Id = Guid.NewGuid(), Name = bookName, Author = authorName, Path = GetBookPath(bookName, authorName) };
+            return new Book { Id = Guid.NewGuid(), Title = bookName, Author = authorName, Path = GetBookPath(bookName, authorName) };
         }
 
-        private string GetBookPath(string fileName, string authorName) => bookFilePathProvider.GetPath(fileName, authorName);
+        private string GetBookPath(string fileName, string authorName) => bookFilePathProvider.GetRelativePath(fileName, authorName);
 
         public ITransaction CreateTransaction()
         {

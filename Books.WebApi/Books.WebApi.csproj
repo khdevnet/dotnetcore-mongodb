@@ -5,19 +5,20 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Books.Data.FileStorage\Books.Data.FileStorage.csproj" />
     <ProjectReference Include="..\Books.Data.NoSql\Books.Data.NoSql.csproj" />
     <ProjectReference Include="..\Books.Data.Sql\Books.Data.Sql.csproj" />
     <ProjectReference Include="..\Books.Data.UnitOfWork\Books.Data.UnitOfWork.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

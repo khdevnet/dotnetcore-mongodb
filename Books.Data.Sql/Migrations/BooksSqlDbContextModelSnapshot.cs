@@ -27,14 +27,14 @@ namespace Books.Data.Sql.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(255);
-
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnName("path");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnName("title")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -43,24 +43,24 @@ namespace Books.Data.Sql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("329f93c3-747d-4896-aac6-37d368b4834b"),
+                            Id = new Guid("072fd0ee-16dd-40f7-b0ec-a5585742c08b"),
                             Author = "Clarke, Arthur C",
-                            Name = "A Space Odissey",
-                            Path = "books\\clarke_arthur_c_a_space_odissey.pdf"
+                            Path = "books\\clarke_arthur_c_a_space_odissey.pdf",
+                            Title = "A Space Odissey"
                         },
                         new
                         {
-                            Id = new Guid("71091081-6be2-4263-bbe3-0f7be788064f"),
+                            Id = new Guid("162cad02-4722-414b-8742-81a7d5c42c96"),
                             Author = "Heinlein, Robert Anson",
-                            Name = "A tenderfoot in space",
-                            Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf"
+                            Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf",
+                            Title = "A tenderfoot in space"
                         },
                         new
                         {
-                            Id = new Guid("14fc72e5-9e63-4b00-8967-dc0303908b3a"),
+                            Id = new Guid("77f12225-3747-4dc1-a761-09cde1f9ae7f"),
                             Author = "Niven, Larry",
-                            Name = "A Hole in Space",
-                            Path = "books\\niven_larry_a_hole_in_space.pdf"
+                            Path = "books\\niven_larry_a_hole_in_space.pdf",
+                            Title = "A Hole in Space"
                         });
                 });
 #pragma warning restore 612, 618

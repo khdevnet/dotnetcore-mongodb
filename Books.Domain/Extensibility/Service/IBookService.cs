@@ -6,6 +6,6 @@ namespace Books.Domain.Extensibility.Service
 {
     public interface IBookService
     {
-        Book Add(Book book);
+        Book Add(BookDto book);
     }
 }

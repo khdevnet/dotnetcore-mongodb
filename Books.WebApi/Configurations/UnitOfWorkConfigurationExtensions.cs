@@ -1,4 +1,6 @@
-﻿using Books.Data.UnitOfWork;
+﻿using Books.Core;
+using Books.Data.UnitOfWork;
+using Books.Domain.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
