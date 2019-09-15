@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61A05866-0D37-4713-B7F1-EAE7C927DF48}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		Dockerfile. = Dockerfile.
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data.Sql", "Books.Data.Sql\Books.Data.Sql.csproj", "{A6798728-E03C-4CBA-9A23-8269A0B49ABA}"
@@ -20,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Domain", "Books.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data.UnitOfWork", "Books.Data.UnitOfWork\Books.Data.UnitOfWork.csproj", "{56B27224-C051-41E7-92D6-EC1C1C596E82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Core", "Books.Core\Books.Core.csproj", "{DD33C59C-7865-4842-B406-66831A78332D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Core", "Books.Core\Books.Core.csproj", "{DD33C59C-7865-4842-B406-66831A78332D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
