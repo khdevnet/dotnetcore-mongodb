@@ -1,5 +1,6 @@
 # dotnetcore-mongodb
 ```
+docker-compose up --force-recreate
 docker-compose rm -fv mongo # remove docker compose cache 
 ```
 
