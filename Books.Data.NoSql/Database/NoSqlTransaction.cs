@@ -1,8 +1,5 @@
 ﻿using Books.Core;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Books.Data.NoSql.Database
 {
@@ -10,9 +7,9 @@ namespace Books.Data.NoSql.Database
     {
         private readonly IClientSessionHandle session;
 
-        public NoSqlTransaction(MongoClient client)
+        public NoSqlTransaction(IClientSessionHandle session)
         {
-            session = client.StartSession();
+            this.session = session;
             session.StartTransaction();
         }
 

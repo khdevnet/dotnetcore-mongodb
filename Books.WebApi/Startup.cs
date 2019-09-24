@@ -1,7 +1,7 @@
+using System;
 using Books.Data.FileStorage;
 using Books.Data.FileStorage.Provider;
 using Books.Data.NoSql.Database;
-using Books.Data.Sql;
 using Books.Data.Sql.Database;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
@@ -12,11 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.IO;
 
 namespace Books.WebApi
 {

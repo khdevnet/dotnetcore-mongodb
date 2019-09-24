@@ -24,6 +24,7 @@ namespace Books.Data.FileStorage
 
         public string Save(BookDto book)
         {
+            throw new NotImplementedException();
             File.WriteAllBytes(bookFilePathProvider.GetFullPath(book.Title, book.Author), book.File);
             return bookFilePathProvider.GetRelativePath(book.Title, book.Author);
         }

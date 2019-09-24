@@ -26,7 +26,7 @@ namespace Books.Data.NoSql.Repository
         public Domain.Book Add(Domain.Book book)
         {
             var bookEntity = Map(book);
-            dbContext.Books.InsertOne(bookEntity);
+            dbContext.InsertOne(bookEntity);
             return Map(bookEntity);
         }
 
