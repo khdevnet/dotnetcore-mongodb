@@ -113,6 +113,10 @@ as your logging does). You might not be able to afford an SSD for your entire da
 but you might be able to get one for your users. Or use RAID10 for users and RAID0
 for logs and activities.
 
+* **Migrating scheme**
+To handle changing requirements in a slightly more structured way you can include a
+"version" field (or just "v") in each document and use that to determine what your
+application will accept for document structure. Migrating of all the data generally is not a good idea.
 
 # Resources
 * [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
