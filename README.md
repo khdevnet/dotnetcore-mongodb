@@ -38,7 +38,7 @@ Transactional NTFS (TxF) allows file operations on an NTFS file system volume to
 * MSSQL FILESTREAM storage is implemented as a varbinary(max) column in which the data is stored as BLOBs in the file system. The sizes of the BLOBs are limited only by the volume size of the file system. The standard varbinary(max) limitation of 2-GB file sizes does not apply to BLOBs that are stored in the file system.
 
 ### MongoDb notes 
-**Padding document** 
+* **Padding document** 
 When MongoDB has to move a document, it bumps the collection’s padding factor,
 which is the amount of extra space MongoDB leaves around new documents to give
 them room to grow. You can see the padding factor by running db.coll.stats(). Be‐
@@ -55,7 +55,7 @@ If your document has one field that grows, try to keep is as the last field in t
 fields after "tags" if it grows.
 
 
-**Cardinality** is how many references a collection has to another collection. Common
+* **Cardinality** is how many references a collection has to another collection. Common
 relationships are one-to-one, one-to-many, or many-to-many. For example, suppose we
 had a blog application. Each post has a title, so that’s a one-to-one relationship. Each
 author has many posts, so that’s a one-to-many relationship. And posts have many tags
@@ -69,6 +69,29 @@ relation between blog posts and tags: your probably have many more blog posts th
 you have tags. However, you’d have a one-to-many relationship between blog posts and
 comments: each post has many comments.
 
+* **Removing old data**
+
+emoving Old Data
+Some data is only important for a brief time: after a few weeks or months it is just wasting
+storage space. There are three popular options for removing old data: capped collections,
+TTL collections, and dropping collections per time period.
+The easiest option is to use a capped collection: set it to a large size and let old data “fall
+off” the end. However, capped collections pose certain limitations on the operations
+you can do and are vulnerable to spikes in traffic, temporarily lowering the length of
+time that they can hold. See “Capped Collections” on page 109 for more information.
+The second option is TTL collections: this gives you a finer-grain control over when
+documents are removed. However, it may not be fast enough for very high-write-volume
+collections: it removes documents by traversing the TTL index the same way a user-
+requested remove would. If TTL collections can keep up, though, they are probably the
+easiest solution. See “Time-To-Live Indexes” on page 114 for more information about
+TTL indexes.
+The final option is to use multiple collections: for example, one collection per month.
+Every time the month changes, your application starts using this month’s (empty) col‐
+lection and searching for data in both the current and previous months’ collections.
+Once a collection is older than, say, six months, you can drop it. This can keep up with
+nearly any volume of traffic, but it is more complex to build an application around, since
+it has to use dynamic collection (or database) names and possibly query multiple
+databases
 
 # Resources
 * [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
