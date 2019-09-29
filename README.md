@@ -37,6 +37,22 @@ Transactional NTFS (TxF) allows file operations on an NTFS file system volume to
 
 * MSSQL FILESTREAM storage is implemented as a varbinary(max) column in which the data is stored as BLOBs in the file system. The sizes of the BLOBs are limited only by the volume size of the file system. The standard varbinary(max) limitation of 2-GB file sizes does not apply to BLOBs that are stored in the file system.
 
+### MongoDb notes 
+
+**Cardinality** is how many references a collection has to another collection. Common
+relationships are one-to-one, one-to-many, or many-to-many. For example, suppose we
+had a blog application. Each post has a title, so that’s a one-to-one relationship. Each
+author has many posts, so that’s a one-to-many relationship. And posts have many tags
+and tags refer to many posts, so that’s a many-to-many relationship.
+When using MongoDB, it can be conceptually useful to split “many” into subcategories:
+“many” and “few.” 
+
+For example, you might have a one-to-few cardinality between
+authors and posts: each author only writes a few posts. You might have many-to-few
+relation between blog posts and tags: your probably have many more blog posts than
+you have tags. However, you’d have a one-to-many relationship between blog posts and
+comments: each post has many comments.
+
 
 # Resources
 * [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
