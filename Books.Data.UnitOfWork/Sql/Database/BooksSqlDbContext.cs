@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Books.Data.Sql.Database
+namespace Books.Data.UnitOfWork.Sql.Database
 {
     public class BooksSqlDbContext : DbContext, ITransactionDbContext
     {

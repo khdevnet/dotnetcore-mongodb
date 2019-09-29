@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Books.Data.Sql.Database;
+using Books.Data.Domain.Extensibility.Repository.Write;
+using Books.Data.UnitOfWork.Sql.Database;
 using Books.Domain;
 
-namespace Books.Data.Sql.Repository
+namespace Books.Data.UnitOfWork.Sql.Repository
 {
     public class BookWriteRepository : IBookWriteRepository
     {

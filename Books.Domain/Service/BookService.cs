@@ -1,10 +1,9 @@
 ﻿using Books.Core;
-using Books.Data.Sql.Repository;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
+using Books.Domain.Extensibility.Repository;
 using Books.Domain.Extensibility.Service;
 using Books.Domain.Read.Repository;
-using Books.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;

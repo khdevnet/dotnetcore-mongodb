@@ -1,7 +1,6 @@
 ﻿using Books.Core;
 using Books.Data.UnitOfWork;
 using Books.Domain.Extensibility.Service;
-using Books.Domain.Repository;
 using Books.Domain.Service;
 using Microsoft.Extensions.DependencyInjection;
 using System;

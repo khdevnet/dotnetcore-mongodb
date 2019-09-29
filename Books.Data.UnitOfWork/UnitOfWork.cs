@@ -1,10 +1,10 @@
 ﻿using Books.Core;
-using Books.Data.NoSql.Database;
-using Books.Data.Sql.Database;
-using Books.Data.Sql.Repository;
+using Books.Data.UnitOfWork.NoSql.Database;
 using Books.Domain.Read.Repository;
-using Books.Domain.Repository;
 using System;
+using Books.Domain.Extensibility.Repository;
+using Books.Data.UnitOfWork.Sql.Database;
+using Books.Data.Domain.Extensibility.Repository.Write;
 
 namespace Books.Data.UnitOfWork
 {

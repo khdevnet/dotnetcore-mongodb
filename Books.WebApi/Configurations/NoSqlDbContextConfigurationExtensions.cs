@@ -1,14 +1,12 @@
-﻿using Books.Data.NoSql.Database;
+﻿using Books.Data.UnitOfWork.NoSql.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Books.Domain.Read.Repository;
-using Books.Data.NoSql.Repository;
-using Books.Data.Sql.Database;
-using Books.Data.Sql.Repository;
-using Books.Data.UnitOfWork;
+using Books.Data.UnitOfWork.NoSql.Repository;
 using System;
+using Books.Data.Domain.Extensibility.Repository.Write;
 
 namespace Books.WebApi.Configurations
 {
