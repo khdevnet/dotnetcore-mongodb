@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Books.Domain;
 
 namespace Books.Domain.Read.Repository
 {

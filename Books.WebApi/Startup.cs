@@ -1,8 +1,8 @@
 using System;
 using Books.Data.FileStorage;
 using Books.Data.FileStorage.Provider;
-using Books.Data.NoSql.Database;
-using Books.Data.Sql.Database;
+using Books.Data.UnitOfWork.NoSql.Database;
+using Books.Data.UnitOfWork.Sql.Database;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
 using Books.WebApi.Configurations;
@@ -64,7 +64,7 @@ namespace Books.WebApi
                     Version = "v1",
                     Title = "Books Web API",
                     TermsOfService = "None",
-                    Contact = new Contact { Name = "Anton Shchcherbyna", Email = "", Url = "" },
+                    Contact = new Contact { Name = "Anton Shcherbyna", Email = "", Url = "" },
                     License = new License { Name = "Apache 2.0", Url = "http://www.apache.org/licenses/LICENSE-2.0" }
                 });
 

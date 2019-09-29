@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Books.Data.NoSql.Entity
+namespace Books.Data.UnitOfWork.NoSql.Entity
 {
     public class Book
     {

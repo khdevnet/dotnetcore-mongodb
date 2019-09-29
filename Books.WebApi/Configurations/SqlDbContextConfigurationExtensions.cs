@@ -1,5 +1,6 @@
-﻿using Books.Data.Sql.Database;
-using Books.Data.Sql.Repository;
+﻿using Books.Data.Domain.Extensibility.Repository.Write;
+using Books.Data.UnitOfWork.Sql.Database;
+using Books.Data.UnitOfWork.Sql.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

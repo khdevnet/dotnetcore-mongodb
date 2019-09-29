@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Books.Data.Sql.Database
+namespace Books.Data.UnitOfWork.Sql.Database
 {
     internal class SqlTransaction : ITransaction
     {

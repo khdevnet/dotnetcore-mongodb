@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Books.Data.NoSql\Books.Data.NoSql.csproj" />
-    <ProjectReference Include="..\Books.Data.Sql\Books.Data.Sql.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Books.Domain\Books.Domain.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Books.Data.Sql.Migrations
+namespace Books.Data.UnitOfWork.Sql.Migrations
 {
     public partial class Init : Migration
     {
@@ -26,9 +26,9 @@ namespace Books.Data.Sql.Migrations
                 columns: new[] { "id", "Author", "path", "title" },
                 values: new object[,]
                 {
-                    { new Guid("072fd0ee-16dd-40f7-b0ec-a5585742c08b"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", "A Space Odissey" },
-                    { new Guid("162cad02-4722-414b-8742-81a7d5c42c96"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", "A tenderfoot in space" },
-                    { new Guid("77f12225-3747-4dc1-a761-09cde1f9ae7f"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", "A Hole in Space" }
+                    { new Guid("47f853c0-f158-49ff-a83a-2fb83c6b6e37"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", "A Space Odissey" },
+                    { new Guid("8442281d-35d6-46a8-a9f9-c8d0e4c8b93d"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", "A tenderfoot in space" },
+                    { new Guid("e1ba0993-c4f2-4a3f-872c-7c87c4ee3f46"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", "A Hole in Space" }
                 });
         }
 

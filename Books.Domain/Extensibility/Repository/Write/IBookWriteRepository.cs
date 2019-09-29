@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Books.Data.Sql.Repository
+namespace Books.Data.Domain.Extensibility.Repository.Write
 {
     public interface IBookWriteRepository
     {

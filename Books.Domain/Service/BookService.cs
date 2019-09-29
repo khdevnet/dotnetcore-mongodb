@@ -1,10 +1,9 @@
 ﻿using Books.Core;
-using Books.Data.Sql.Repository;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
+using Books.Domain.Extensibility.Repository;
 using Books.Domain.Extensibility.Service;
 using Books.Domain.Read.Repository;
-using Books.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +25,7 @@ namespace Books.Domain.Service
             this.unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public Book Add(BookDto bookDto)
+        public Book AddSuccessfully(BookDto bookDto)
         {
             var book = Convert(bookDto);
             using (var unitOfWork = unitOfWorkFactory())
@@ -36,6 +35,28 @@ namespace Books.Domain.Service
                     unitOfWork.BookWriteRepository.Add(book);
                     unitOfWork.BookReadRepository.Add(book);
                     bookFileStorage.Save(bookDto);
+                    unitOfWork.Commit();
+                    return book;
+                }
+                catch (Exception)
+                {
+                    unitOfWork.Rollback();
+                    throw;
+                }
+
+            }
+        }
+
+        public Book AddFileFail(BookDto bookDto)
+        {
+            var book = Convert(bookDto);
+            using (var unitOfWork = unitOfWorkFactory())
+            {
+                try
+                {
+                    unitOfWork.BookWriteRepository.Add(book);
+                    unitOfWork.BookReadRepository.Add(book);
+                    throw new Exception("File save fail.");
                     unitOfWork.Commit();
                     return book;
                 }

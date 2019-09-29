@@ -1,4 +1,4 @@
-﻿namespace Books.Data.NoSql.Database
+﻿namespace Books.Data.UnitOfWork.NoSql.Database
 {
     public class BooksNoSqlDbContextSettings : IBookNoSqlDbContextSettings
     {

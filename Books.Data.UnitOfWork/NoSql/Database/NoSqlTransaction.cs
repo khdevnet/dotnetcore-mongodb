@@ -1,7 +1,7 @@
 ﻿using Books.Core;
 using MongoDB.Driver;
 
-namespace Books.Data.NoSql.Database
+namespace Books.Data.UnitOfWork.NoSql.Database
 {
     internal class NoSqlTransaction : ITransaction
     {
