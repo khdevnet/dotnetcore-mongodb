@@ -3,18 +3,18 @@
 docker-compose up --force-recreate
 docker-compose rm -fv mongo-one # remove docker compose cache 
 
-docker exec -it dotnetcore-mongodb_mongo-one_1 mongo # config cluster
+docker exec -it mongodb_mongo_one_1 mongo # config cluster
 
 config = {
       "_id" : "rs0",
       "members" : [
           {
               "_id" : 0,
-              "host" : "dotnetcore-mongodb_mongo-one_1:27017"
+              "host" : "mongodb_mongo_one_1:27017"
           },
           {
               "_id" : 1,
-              "host" : "dotnetcore-mongodb_mongo-two_1:27017"
+              "host" : "mongodb_mongo_two_1:27017"
           }
       ]
   }
@@ -24,8 +24,8 @@ rs.initiate(config)
 docker run --network dotnetcore-mongodb_default -e ME_CONFIG_MONGODB_SERVER=dotnetcore-mongodb_mongo-one_1,dotnetcore-mongodb_mongo-two_1 -p 8081:8081 mongo-express
 
 # configure windows hosts to enable replicaset from mongo client
-127.0.0.1  dotnetcore-mongodb_mongo-one_1
-127.0.0.1  dotnetcore-mongodb_mongo-two_1
+127.0.0.1  mongodb_mongo_one_1
+127.0.0.1  mongodb_mongo_two_1
 
 ```
 
