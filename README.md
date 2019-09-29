@@ -10,11 +10,11 @@ config = {
       "members" : [
           {
               "_id" : 0,
-              "host" : "dotnetcore-mongodb_mongo-one_1:27017"
+              "host" : "mongodb_mongo-one_1:27017"
           },
           {
               "_id" : 1,
-              "host" : "dotnetcore-mongodb_mongo-two_1:27017"
+              "host" : "mongodb_mongo-two_1:27017"
           }
       ]
   }

@@ -25,7 +25,7 @@ namespace Books.Domain.Service
             this.unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public Book Add(BookDto bookDto)
+        public Book AddSuccessfully(BookDto bookDto)
         {
             var book = Convert(bookDto);
             using (var unitOfWork = unitOfWorkFactory())
@@ -35,6 +35,28 @@ namespace Books.Domain.Service
                     unitOfWork.BookWriteRepository.Add(book);
                     unitOfWork.BookReadRepository.Add(book);
                     bookFileStorage.Save(bookDto);
+                    unitOfWork.Commit();
+                    return book;
+                }
+                catch (Exception)
+                {
+                    unitOfWork.Rollback();
+                    throw;
+                }
+
+            }
+        }
+
+        public Book AddFileFail(BookDto bookDto)
+        {
+            var book = Convert(bookDto);
+            using (var unitOfWork = unitOfWorkFactory())
+            {
+                try
+                {
+                    unitOfWork.BookWriteRepository.Add(book);
+                    unitOfWork.BookReadRepository.Add(book);
+                    throw new Exception("File save fail.");
                     unitOfWork.Commit();
                     return book;
                 }

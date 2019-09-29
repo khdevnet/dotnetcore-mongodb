@@ -66,11 +66,20 @@ namespace Books.WebApi.Controllers
             return File(bookFileStorage.GetBytes(book), "application/pdf");
         }
 
-        [HttpPost]
+        [HttpPost("sucessfully")]
         [ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
-        public ActionResult<Book> Create([FromForm] CreateBookRequestModel bookModel)
+        public ActionResult<Book> CreateSucessfully([FromForm] CreateBookRequestModel bookModel)
         {
-            var book = bookService.Add(modelConverter.Convert(bookModel));
+            var book = bookService.AddSuccessfully(modelConverter.Convert(bookModel));
+
+            return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
+        }
+
+        [HttpPost("fail")]
+        [ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
+        public ActionResult<Book> CreateFail([FromForm] CreateBookRequestModel bookModel)
+        {
+            var book = bookService.AddFileFail(modelConverter.Convert(bookModel));
 
             return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
         }

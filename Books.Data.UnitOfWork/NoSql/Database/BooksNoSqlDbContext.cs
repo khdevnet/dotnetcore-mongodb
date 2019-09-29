@@ -14,37 +14,22 @@ namespace Books.Data.UnitOfWork.NoSql.Database
         public BooksNoSqlDbContext(IBookNoSqlDbContextSettings settings)
         {
             var mongoSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
-            var settings1 = new MongoClientSettings
-            {
-                Servers = new[]
-                {
-                    new MongoServerAddress("127.0.0.1", 27017),
-                    new MongoServerAddress("127.0.0.1", 27018)
-                },
-                ConnectionMode = ConnectionMode.ReplicaSet,
-                ReplicaSetName = "rs0"
-            };
 
-            client = new MongoClient(settings1);
+            client = new MongoClient(mongoSettings);
             session = client.StartSession();
             db = client.GetDatabase(settings.DatabaseName);
-            Books = db.GetCollection<Book>(typeof(Book).Name.ToLower());
-            Books.InsertOne(new Book()
-            {
-                Title = "222"
-            });
         }
 
         public void InsertOne<TEntity>(TEntity entity)
         {
-            db.GetCollection<TEntity>(entity.GetType().Name.ToLower()).InsertOne(session, entity);
+            db.GetCollection<TEntity>(GetCollectionName(entity)).InsertOne(session, entity);
         }
 
-        public IMongoCollection<Book> Books { get; }
+        public IMongoCollection<Book> Books => db.GetCollection<Book>(GetCollectionName<Book>());
 
         public void DropCollection<T>()
         {
-            db.DropCollection(typeof(Book).Name.ToLower());
+            db.DropCollection(GetCollectionName<T>());
         }
 
         public ITransaction CreateTransaction()
@@ -55,6 +40,16 @@ namespace Books.Data.UnitOfWork.NoSql.Database
         public void Dispose()
         {
             session.Dispose();
+        }
+
+        private static string GetCollectionName<TEntity>(TEntity entity)
+        {
+            return entity.GetType().Name.ToLower();
+        }
+
+        private static string GetCollectionName<TEntity>()
+        {
+            return typeof(TEntity).Name.ToLower();
         }
     }
 }
