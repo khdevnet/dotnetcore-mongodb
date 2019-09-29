@@ -1,7 +1,8 @@
-# dotnetcore-mongodb
+# mongodb
 ```
 docker-compose up --force-recreate
-docker-compose rm -fv mongo-one # remove docker compose cache 
+docker-compose rm -fv mongo_one # remove docker compose cache 
+docker-compose rm -fv mongo_two
 
 docker exec -it mongodb_mongo_one_1 mongo # config cluster
 
