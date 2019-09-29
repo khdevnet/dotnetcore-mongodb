@@ -50,6 +50,10 @@ grow. If subsequent updates cause more moves, the padding factor will continue t
 (although not as dramatically as it did on the first move). If there aren’t more moves,
 the padding factor will slowly go down, as shown in Figure 3-3.
 
+If your document has one field that grows, try to keep is as the last field in the document
+(but before "garbage"). It is slightly more efficient for MongoDB not to have to rewrite
+fields after "tags" if it grows.
+
 
 **Cardinality** is how many references a collection has to another collection. Common
 relationships are one-to-one, one-to-many, or many-to-many. For example, suppose we
