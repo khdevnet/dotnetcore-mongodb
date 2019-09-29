@@ -93,5 +93,26 @@ nearly any volume of traffic, but it is more complex to build an application aro
 it has to use dynamic collection (or database) names and possibly query multiple
 databases
 
+* **Planing databases and collections**
+For databases, the big issues to consider are locking (you get a read/write lock per da‐
+tabase) and storage. Each database resides in its own files and often its own directory
+on disk, which means that you could mount different databases to different volumes.
+Thus, you may want all items within a database to be of similar “quality,” similar access
+pattern, or similar traffic levels.
+
+For example, suppose we have an application with several components: a logging com‐
+ponent that creates a huge amount of not-very-valuable data, a user collection, and a
+couple of collections for user-generated data. The user collections are high-value: it is
+important that user data is safe. There is also a high-traffic collection for social activities,
+which is of lower importance but not quite as unimportant as the logs. This collection
+is mainly used for user notifications, so it is almost an append-only collection.
+Splitting these up by importance, we might end up with three databases: logs, activi
+ties, and users. The nice thing about this strategy is that you may find that your highest-
+value data is also your smallest (for instance, users probably don’t generate as much data
+as your logging does). You might not be able to afford an SSD for your entire data set,
+but you might be able to get one for your users. Or use RAID10 for users and RAID0
+for logs and activities.
+
+
 # Resources
 * [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
