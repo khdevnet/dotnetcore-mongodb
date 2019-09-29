@@ -22,7 +22,7 @@ config = {
 
 rs.initiate(config)
 
-docker run --network dotnetcore-mongodb_default -e ME_CONFIG_MONGODB_SERVER=dotnetcore-mongodb_mongo-one_1,dotnetcore-mongodb_mongo-two_1 -p 8081:8081 mongo-express
+docker run --network mongodb_default -e ME_CONFIG_MONGODB_SERVER=mongodb_mongo_one_1,mongodb_mongo_two_1 -p 8081:8081 mongo-express
 
 # configure windows hosts to enable replicaset from mongo client
 127.0.0.1  mongodb_mongo_one_1
