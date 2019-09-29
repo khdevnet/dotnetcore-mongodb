@@ -38,6 +38,18 @@ Transactional NTFS (TxF) allows file operations on an NTFS file system volume to
 * MSSQL FILESTREAM storage is implemented as a varbinary(max) column in which the data is stored as BLOBs in the file system. The sizes of the BLOBs are limited only by the volume size of the file system. The standard varbinary(max) limitation of 2-GB file sizes does not apply to BLOBs that are stored in the file system.
 
 ### MongoDb notes 
+**Padding document** 
+When MongoDB has to move a document, it bumps the collection’s padding factor,
+which is the amount of extra space MongoDB leaves around new documents to give
+them room to grow. You can see the padding factor by running db.coll.stats(). Be‐
+fore doing the update above, the "paddingFactor" field will be 1: allocate exactly the
+size of the document for each new document, as shown in Figure 3-1. If you run it again
+after making one of the documents larger (as shown in Figure 3-2), you’ll see that it has
+grown to around 1.5: each new document will be given half of its size in free space to
+grow. If subsequent updates cause more moves, the padding factor will continue to grow
+(although not as dramatically as it did on the first move). If there aren’t more moves,
+the padding factor will slowly go down, as shown in Figure 3-3.
+
 
 **Cardinality** is how many references a collection has to another collection. Common
 relationships are one-to-one, one-to-many, or many-to-many. For example, suppose we
