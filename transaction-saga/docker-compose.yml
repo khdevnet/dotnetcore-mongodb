@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  mongo_one:
+    image: mongo:4.0
+    command: --bind_ip_all --replSet rs0
+    restart: always
+    ports:
+      - 27017:27017
+
+  mongo_two:
+    depends_on:
+      - "mongo_one"
+    image: mongo:4.0
+    command: --bind_ip_all --replSet rs0
+    restart: always
+    ports:
+      - 27018:27017
+
+  postgres:
+    image: 'postgres:9.6.2'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '123456'
