@@ -13,13 +13,13 @@ When using MongoDB, it can be conceptually useful to split “many” into subca
 
 For example, you might have a one-to-few cardinality between authors and posts: each author only writes a few posts. You might have many-to-few relation between blog posts and tags: your probably have many more blog posts than you have tags. However, you’d have a one-to-many relationship between blog posts and comments: each post has many comments.
 
-## Removing old data
+### Removing old data
 Some data is only important for a brief time: after a few weeks or months it is just wasting storage space. There are three popular options for removing old data: capped collections, TTL collections, and dropping collections per time period. The easiest option is to use a capped collection: set it to a large size and let old data “fall off” the end. However, capped collections pose certain limitations on the operations you can do and are vulnerable to spikes in traffic, temporarily lowering the length of time that they can hold. See “Capped Collections” on page 109 for more information. The second option is TTL collections: this gives you a finer-grain control over when documents are removed. However, it may not be fast enough for very high-write-volume collections: it removes documents by traversing the TTL index the same way a user-requested remove would. If TTL collections can keep up, though, they are probably the
 easiest solution. See “Time-To-Live Indexes” on page 114 for more information about TTL indexes.
 The final option is to use multiple collections: for example, one collection per month. Every time the month changes, your application starts using this month’s (empty) collection and searching for data in both the current and previous months’ collections.
 Once a collection is older than, say, six months, you can drop it. This can keep up with nearly any volume of traffic, but it is more complex to build an application around, since it has to use dynamic collection (or database) names and possibly query multiple databases
 
-## Planing databases and collections
+### Planing databases and collections
 For databases, the big issues to consider are locking (you get a read/write lock per database) and storage. Each database resides in its own files and often its own directoryon disk, which means that you could mount different databases to different volumes.
 Thus, you may want all items within a database to be of similar “quality,” similar access pattern, or similar traffic levels.
 
@@ -27,7 +27,7 @@ For example, suppose we have an application with several components: a logging c
 Splitting these up by importance, we might end up with three databases: logs, activities, and users. The nice thing about this strategy is that you may find that your highest value data is also your smallest (for instance, users probably don’t generate as much data
 as your logging does). You might not be able to afford an SSD for your entire data set, but you might be able to get one for your users. Or use RAID10 for users and RAID0 for logs and activities.
 
-## Migrating scheme
+### Migrating scheme
 To handle changing requirements in a slightly more structured way you can include a "version" field (or just "v") in each document and use that to determine what your application will accept for document structure. Migrating of all the data generally is not a good idea.
 
 # Resources
