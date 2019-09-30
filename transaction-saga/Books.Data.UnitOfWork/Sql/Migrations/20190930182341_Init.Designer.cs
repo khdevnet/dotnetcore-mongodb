@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Books.Data.UnitOfWork.Sql.Migrations
 {
     [DbContext(typeof(BooksSqlDbContext))]
-    [Migration("20190929154932_Init")]
+    [Migration("20190930182341_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         .IsRequired()
                         .HasColumnName("path");
 
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnName("title")
@@ -45,23 +48,26 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("47f853c0-f158-49ff-a83a-2fb83c6b6e37"),
+                            Id = new Guid("696f5e4b-c403-41bb-8601-549d2d11ccc9"),
                             Author = "Clarke, Arthur C",
                             Path = "books\\clarke_arthur_c_a_space_odissey.pdf",
+                            Status = 2,
                             Title = "A Space Odissey"
                         },
                         new
                         {
-                            Id = new Guid("8442281d-35d6-46a8-a9f9-c8d0e4c8b93d"),
+                            Id = new Guid("c03ad1a9-2c1f-4053-8e8a-25db211502d7"),
                             Author = "Heinlein, Robert Anson",
                             Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf",
+                            Status = 2,
                             Title = "A tenderfoot in space"
                         },
                         new
                         {
-                            Id = new Guid("e1ba0993-c4f2-4a3f-872c-7c87c4ee3f46"),
+                            Id = new Guid("c41e17f4-1453-4bfd-b35b-e55aef907278"),
                             Author = "Niven, Larry",
                             Path = "books\\niven_larry_a_hole_in_space.pdf",
+                            Status = 2,
                             Title = "A Hole in Space"
                         });
                 });

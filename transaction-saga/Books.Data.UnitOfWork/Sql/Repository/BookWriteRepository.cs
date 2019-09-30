@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Books.Data.Domain.Extensibility.Repository.Write;
 using Books.Data.UnitOfWork.Sql.Database;
 using Books.Domain;
+using Books.Domain.Extensibility.Repository.Write;
 
 namespace Books.Data.UnitOfWork.Sql.Repository
 {
@@ -22,6 +21,14 @@ namespace Books.Data.UnitOfWork.Sql.Repository
             dbContext.Add(book);
             dbContext.SaveChanges();
             return book;
+        }
+
+        public Book UpdateStatus(Guid id, BookStatus status)
+        {
+            Book entity = dbContext.Books.Find(id);
+            entity.Status = status;
+            dbContext.SaveChanges();
+            return entity;
         }
 
         public IReadOnlyCollection<Book> Get() => dbContext.Books.ToList();

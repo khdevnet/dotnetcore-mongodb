@@ -1,15 +1,15 @@
-﻿using Books.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Books.Domain;
+using Books.Domain.Books;
 using Books.Domain.Extensibility;
-using Books.Domain.Extensibility.Service;
 using Books.Domain.Read.Repository;
 using Books.WebApi.Converters;
 using Books.WebApi.Models;
-using Microsoft.AspNetCore.Http;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Books.WebApi.Controllers
 {
@@ -20,17 +20,17 @@ namespace Books.WebApi.Controllers
     {
         public const string ApiRoot = "api/books";
         private readonly IBookReadRepository bookReadRepository;
-        private readonly IBookService bookService;
+        private readonly IMediator mediatr;
         private readonly IBookFileStorage bookFileStorage;
         private readonly IModelConverter modelConverter;
 
         public BooksController(IBookReadRepository bookReadRepository,
-            IBookService bookService,
+            IMediator mediatr,
             IBookFileStorage bookFileStorage,
             IModelConverter modelConverter)
         {
             this.bookReadRepository = bookReadRepository;
-            this.bookService = bookService;
+            this.mediatr = mediatr;
             this.bookFileStorage = bookFileStorage;
             this.modelConverter = modelConverter;
         }
@@ -68,21 +68,21 @@ namespace Books.WebApi.Controllers
 
         [HttpPost("sucessfully")]
         [ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
-        public ActionResult<Book> CreateSucessfully([FromForm] CreateBookRequestModel bookModel)
+        public async Task<ActionResult<Book>> CreateSucessfully([FromForm] CreateBookRequestModel bookModel)
         {
-            var book = bookService.AddSuccessfully(modelConverter.Convert(bookModel));
+            var book = await mediatr.Send(new CreateBookCommand(modelConverter.Convert(bookModel)));
 
             return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
         }
 
-        [HttpPost("fail")]
-        [ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
-        public ActionResult<Book> CreateFail([FromForm] CreateBookRequestModel bookModel)
-        {
-            var book = bookService.AddFileFail(modelConverter.Convert(bookModel));
+        //[HttpPost("fail")]
+        //[ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
+        //public ActionResult<Book> CreateFail([FromForm] CreateBookRequestModel bookModel)
+        //{
+        //    var book = bookService.AddFileFail(modelConverter.Convert(bookModel));
 
-            return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
-        }
+        //    return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
+        //}
 
         private Uri GetHostUrl()
         {

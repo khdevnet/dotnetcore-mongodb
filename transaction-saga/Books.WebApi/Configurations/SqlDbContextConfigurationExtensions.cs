@@ -1,13 +1,10 @@
-﻿using Books.Data.Domain.Extensibility.Repository.Write;
+﻿using System.Reflection;
 using Books.Data.UnitOfWork.Sql.Database;
 using Books.Data.UnitOfWork.Sql.Repository;
+using Books.Domain.Extensibility.Repository.Write;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace Books.WebApi.Configurations
 {

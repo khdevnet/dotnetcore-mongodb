@@ -1,10 +1,11 @@
-﻿using Books.Data.UnitOfWork.NoSql.Database;
-using Books.Data.UnitOfWork.NoSql.Entity;
-using Books.Domain.Read.Repository;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Books.Data.UnitOfWork.NoSql.Database;
+using Books.Domain;
+using Books.Domain.Read.Repository;
+using MongoDB.Driver;
+using Book = Books.Data.UnitOfWork.NoSql.Entity.Book;
 using BookDomain = Books.Domain.Book;
 
 namespace Books.Data.UnitOfWork.NoSql.Repository
@@ -19,7 +20,7 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         }
 
         public IReadOnlyCollection<BookDomain> Get() =>
-            dbContext.Books.Find(book => true).ToList().Select(Map).ToList();
+            dbContext.Books.Find(book => true).ToList().Select(Map).Where(x=>x.Status == BookStatus.FileSaved).ToList();
 
         public BookDomain Get(Guid id) =>
             Map(dbContext.Books.Find<Book>(book => book.Id == id).FirstOrDefault());
@@ -27,8 +28,14 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         public BookDomain Add(BookDomain book)
         {
             var bookEntity = Map(book);
-            dbContext.InsertOne(bookEntity);
+            dbContext.Books.InsertOne(bookEntity);
             return Map(bookEntity);
+        }
+
+        public Guid Delete(Guid id)
+        {
+            dbContext.Books.DeleteOne(a => a.Id == id);
+            return id;
         }
 
         public IReadOnlyCollection<BookDomain> CreateBulk(IReadOnlyCollection<BookDomain> books)
@@ -48,7 +55,8 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
-                Path = book.Path
+                Path = book.Path,
+                Status = (BookStatus)Enum.Parse(typeof(BookStatus), book.Status)
             };
         }
 
@@ -64,7 +72,8 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
-                Path = book.Path
+                Path = book.Path,
+                Status = book.Status.ToString()
             };
         }
     }

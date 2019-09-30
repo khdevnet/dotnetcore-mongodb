@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Books.Core;
 using Books.Domain;
 using Books.Domain.Extensibility.Provider;
 using Microsoft.EntityFrameworkCore;
 
 namespace Books.Data.UnitOfWork.Sql.Database
 {
-    public class BooksSqlDbContext : DbContext, ITransactionDbContext
+    public class BooksSqlDbContext : DbContext
     {
         private readonly IBookFilePathProvider bookFilePathProvider;
 
@@ -20,7 +19,7 @@ namespace Books.Data.UnitOfWork.Sql.Database
 
         public DbSet<Book> Books { get; set; }
 
-        public DbSet<CreateBookSaga> CreateBookSagas { get; set; }
+        // public DbSet<CreateBookSaga> CreateBookSagas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +46,11 @@ namespace Books.Data.UnitOfWork.Sql.Database
                 .IsRequired();
 
             modelBuilder.Entity<Book>()
+                .Property(p => p.Status)
+                .HasColumnName("status")
+                .IsRequired();
+
+            modelBuilder.Entity<Book>()
                 .Property(p => p.Path)
                 .HasColumnName("path")
                 .IsRequired();
@@ -65,14 +69,16 @@ namespace Books.Data.UnitOfWork.Sql.Database
 
         private Book CreateBook(string bookName, string authorName)
         {
-            return new Book { Id = Guid.NewGuid(), Title = bookName, Author = authorName, Path = GetBookPath(bookName, authorName) };
+            return new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = bookName,
+                Author = authorName,
+                Status = BookStatus.FileSaved,
+                Path = GetBookPath(bookName, authorName)
+            };
         }
 
         private string GetBookPath(string fileName, string authorName) => bookFilePathProvider.GetRelativePath(fileName, authorName);
-
-        public ITransaction CreateTransaction()
-        {
-            return new SqlTransaction(this);
-        }
     }
 }

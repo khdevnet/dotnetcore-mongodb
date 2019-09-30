@@ -1,12 +1,4 @@
-﻿using Books.Core;
-using Books.Data.UnitOfWork;
-using Books.Domain.Extensibility.Service;
-using Books.Domain.Service;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Books.WebApi.Configurations
 {
@@ -14,7 +6,6 @@ namespace Books.WebApi.Configurations
     {
         public static void RegisterDomainServices(this IServiceCollection services)
         {
-            services.AddTransient<IBookService, BookService>();
         }
     }
 }

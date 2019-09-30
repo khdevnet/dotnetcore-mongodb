@@ -1,12 +1,13 @@
-using System;
 using Books.Data.FileStorage;
 using Books.Data.FileStorage.Provider;
 using Books.Data.UnitOfWork.NoSql.Database;
 using Books.Data.UnitOfWork.Sql.Database;
+using Books.Domain.Books;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
 using Books.WebApi.Configurations;
 using Books.WebApi.Converters;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +39,13 @@ namespace Books.WebApi
                         .AllowCredentials());
             });
 
+            services.AddMediatR(typeof(CreateBookCommand).Assembly);
+
             services.AddSqlDbContext(Configuration.GetConnectionString(nameof(BooksSqlDbContext)));
             services.RegisterSqlServices();
 
             services.AddNoSqlDbContext(Configuration.GetSection(nameof(BooksNoSqlDbContextSettings)));
             services.RegisterNoSqlServices();
-
-            services.RegisterUnitOfWorkServices();
 
             services.RegisterDomainServices();
 
@@ -71,7 +72,7 @@ namespace Books.WebApi
                 c.OperationFilter<FormFileSwaggerFilter>();
 
                 //Determine base path for the application.
-                var basePath = AppContext.BaseDirectory;
+                //var basePath = AppContext.BaseDirectory;
 
                 //Set the comments path for the swagger json and ui.
                 // c.IncludeXmlComments(Path.Combine(basePath + "/Books.WebApi.xml"));

@@ -1,11 +1,9 @@
-﻿using Books.Domain;
+﻿using System;
+using System.IO;
+using Books.Domain;
+using Books.Domain.Books;
 using Books.WebApi.Controllers;
 using Books.WebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Books.WebApi.Converters
 {

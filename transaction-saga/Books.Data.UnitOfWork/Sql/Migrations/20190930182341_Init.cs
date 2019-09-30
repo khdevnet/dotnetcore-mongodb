@@ -13,6 +13,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                 {
                     id = table.Column<Guid>(nullable: false),
                     title = table.Column<string>(maxLength: 255, nullable: false),
+                    status = table.Column<int>(nullable: false),
                     path = table.Column<string>(nullable: false),
                     Author = table.Column<string>(nullable: true)
                 },
@@ -23,12 +24,12 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
 
             migrationBuilder.InsertData(
                 table: "book",
-                columns: new[] { "id", "Author", "path", "title" },
+                columns: new[] { "id", "Author", "path", "status", "title" },
                 values: new object[,]
                 {
-                    { new Guid("47f853c0-f158-49ff-a83a-2fb83c6b6e37"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", "A Space Odissey" },
-                    { new Guid("8442281d-35d6-46a8-a9f9-c8d0e4c8b93d"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", "A tenderfoot in space" },
-                    { new Guid("e1ba0993-c4f2-4a3f-872c-7c87c4ee3f46"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", "A Hole in Space" }
+                    { new Guid("696f5e4b-c403-41bb-8601-549d2d11ccc9"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", 2, "A Space Odissey" },
+                    { new Guid("c03ad1a9-2c1f-4053-8e8a-25db211502d7"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", 2, "A tenderfoot in space" },
+                    { new Guid("c41e17f4-1453-4bfd-b35b-e55aef907278"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", 2, "A Hole in Space" }
                 });
         }
 

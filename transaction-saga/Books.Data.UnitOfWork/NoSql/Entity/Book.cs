@@ -14,5 +14,7 @@ namespace Books.Data.UnitOfWork.NoSql.Entity
         public string Path { get; set; }
 
         public string Author { get; set; }
+
+        public string Status { get; set; }
     }
 }
