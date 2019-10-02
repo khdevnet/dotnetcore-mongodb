@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Books.Data.UnitOfWork.Sql.Database;
 using Books.Domain;
-using Books.Domain.Extensibility.Repository.Write;
+using Books.Domain.Extensibility.Repository;
 
 namespace Books.Data.UnitOfWork.Sql.Repository
 {

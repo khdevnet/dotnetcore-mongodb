@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Books.Domain;
 using Books.Domain.Books;
 using Books.Domain.Extensibility;
-using Books.Domain.Read.Repository;
+using Books.Domain.Extensibility.Repository;
 using Books.WebApi.Converters;
 using Books.WebApi.Models;
 using MediatR;

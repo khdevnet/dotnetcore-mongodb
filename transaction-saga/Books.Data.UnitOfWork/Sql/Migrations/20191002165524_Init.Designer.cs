@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Books.Data.UnitOfWork.Sql.Migrations
 {
     [DbContext(typeof(BooksSqlDbContext))]
-    [Migration("20190930182341_Init")]
+    [Migration("20191002165524_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("696f5e4b-c403-41bb-8601-549d2d11ccc9"),
+                            Id = new Guid("12140792-49f8-4b05-9641-cbd58706961a"),
                             Author = "Clarke, Arthur C",
                             Path = "books\\clarke_arthur_c_a_space_odissey.pdf",
                             Status = 2,
@@ -56,7 +56,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c03ad1a9-2c1f-4053-8e8a-25db211502d7"),
+                            Id = new Guid("4359fd53-7f6a-4fdb-af32-d3d552b292c3"),
                             Author = "Heinlein, Robert Anson",
                             Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf",
                             Status = 2,
@@ -64,12 +64,32 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c41e17f4-1453-4bfd-b35b-e55aef907278"),
+                            Id = new Guid("1bea3e46-4f9e-4ea7-9713-b646f9c5883c"),
                             Author = "Niven, Larry",
                             Path = "books\\niven_larry_a_hole_in_space.pdf",
                             Status = 2,
                             Title = "A Hole in Space"
                         });
+                });
+
+            modelBuilder.Entity("Books.Domain.Events.SagaEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnName("data");
+
+                    b.Property<Guid>("SagaId");
+
+                    b.Property<bool>("Success")
+                        .HasColumnName("success");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("saga_event");
                 });
 #pragma warning restore 612, 618
         }

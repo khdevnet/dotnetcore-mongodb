@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Books.Domain.Extensibility.Repository.Write
+namespace Books.Domain.Extensibility.Repository
 {
     public interface IBookWriteRepository
     {

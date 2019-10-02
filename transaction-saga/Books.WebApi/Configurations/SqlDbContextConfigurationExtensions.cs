@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Books.Data.UnitOfWork.Sql.Database;
 using Books.Data.UnitOfWork.Sql.Repository;
-using Books.Domain.Extensibility.Repository.Write;
+using Books.Domain.Extensibility.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +20,7 @@ namespace Books.WebApi.Configurations
         public static void RegisterSqlServices(this IServiceCollection services)
         {
             services.AddTransient<IBookWriteRepository, BookWriteRepository>();
+            services.AddTransient<ISagaEventRepository, SagaEventRepository>();
         }
 
         public static void ApplySqlDbMigrations(this IApplicationBuilder app)

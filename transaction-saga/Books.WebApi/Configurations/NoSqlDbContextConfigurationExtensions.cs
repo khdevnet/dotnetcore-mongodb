@@ -1,7 +1,6 @@
 ﻿using Books.Data.UnitOfWork.NoSql.Database;
 using Books.Data.UnitOfWork.NoSql.Repository;
-using Books.Domain.Extensibility.Repository.Write;
-using Books.Domain.Read.Repository;
+using Books.Domain.Extensibility.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace Books.Data.UnitOfWork.NoSql.Entity
 {

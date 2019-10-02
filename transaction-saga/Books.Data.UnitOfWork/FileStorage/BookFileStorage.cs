@@ -3,7 +3,7 @@ using Books.Domain;
 using Books.Domain.Extensibility;
 using Books.Domain.Extensibility.Provider;
 
-namespace Books.Data.FileStorage
+namespace Books.Data.UnitOfWork.FileStorage
 {
     public class BookFileStorage : IBookFileStorage
     {

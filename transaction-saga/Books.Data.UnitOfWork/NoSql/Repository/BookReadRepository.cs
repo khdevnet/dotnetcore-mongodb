@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Books.Data.UnitOfWork.NoSql.Database;
 using Books.Domain;
-using Books.Domain.Read.Repository;
+using Books.Domain.Extensibility.Repository;
 using MongoDB.Driver;
 using Book = Books.Data.UnitOfWork.NoSql.Entity.Book;
 using BookDomain = Books.Domain.Book;
@@ -20,7 +20,7 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         }
 
         public IReadOnlyCollection<BookDomain> Get() =>
-            dbContext.Books.Find(book => true).ToList().Select(Map).Where(x=>x.Status == BookStatus.FileSaved).ToList();
+            dbContext.Books.Find(book => true).ToList().Select(Map).Where(x => x.Status == BookStatus.FileSaved).ToList();
 
         public BookDomain Get(Guid id) =>
             Map(dbContext.Books.Find<Book>(book => book.Id == id).FirstOrDefault());

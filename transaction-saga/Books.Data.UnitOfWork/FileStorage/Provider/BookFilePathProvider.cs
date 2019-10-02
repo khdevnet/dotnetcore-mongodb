@@ -1,12 +1,7 @@
-﻿using Books.Domain.Extensibility.Provider;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.IO;
+using Books.Domain.Extensibility.Provider;
 
-namespace Books.Data.FileStorage.Provider
+namespace Books.Data.UnitOfWork.FileStorage.Provider
 {
     public class BookFilePathProvider : IBookFilePathProvider
     {

@@ -1,5 +1,5 @@
-using Books.Data.FileStorage;
-using Books.Data.FileStorage.Provider;
+using Books.Data.UnitOfWork.FileStorage;
+using Books.Data.UnitOfWork.FileStorage.Provider;
 using Books.Data.UnitOfWork.NoSql.Database;
 using Books.Data.UnitOfWork.Sql.Database;
 using Books.Domain.Books;
