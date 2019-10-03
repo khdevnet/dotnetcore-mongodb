@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Books.Data.NoSql.Entity;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -9,7 +11,7 @@ namespace Books.Data.NoSql.Database
     public class BooksNoSqlDbContext : IDisposable
     {
         private readonly MongoClient client;
-        private readonly IClientSessionHandle session;
+        public readonly IClientSessionHandle session;
         private readonly IMongoDatabase db;
         private readonly IMongoDatabase admin;
 
@@ -37,25 +39,73 @@ namespace Books.Data.NoSql.Database
             };
             admin.RunCommand<BsonDocument>(new BsonDocument(doc));
         }
+        public async Task KillSessionAsync(BsonDocument sessionId)
+        {
+            var dd = sessionId.ToBsonDocument();
+            var dd1 = sessionId.ToJson();
+            List<BsonDocument> agg = admin.Aggregate()
+                .AppendStage<BsonDocument>(new BsonDocument
+            {
+                {
+                    "$currentOp",
+                    new BsonDocument
+                    {
+                        {"allUsers", true},
+                        {"localOps", true}
+                    }
+                }
 
-        public void Lock()
+            }).AppendStage<BsonDocument>(new BsonDocument
+            {
+                { "$match",
+                    new BsonDocument
+                    {
+                        {"op", "insert"},
+                    }
+
+                }
+            })
+            .ToList();
+
+            var values = agg.Select(x => x.GetValue("opid")).ToList();
+          
+
+            values.ForEach(async opId =>
+            {
+                var opid = values[0].AsInt32;
+                var doc = new Dictionary<string, object>()
+                {
+                    { "killOp", 1 },
+                    { "op", opid }
+                };
+                var bs = new BsonDocument(doc);
+                BsonDocument s = await admin.RunCommandAsync<BsonDocument>(bs);
+            });
+          
+        }
+
+
+        public async Task<int> LockAsync()
         {
             var doc = new Dictionary<string, object>
             {
                 { "fsync", 1 },
                 { "lock", true }
             };
-            var s = admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            BsonDocument s = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            return s.GetValue("lockCount").ToInt32();
         }
 
-        public void UnLock()
+        public async Task UnLockAsync(int lockCount)
         {
             var doc = new Dictionary<string, object>
             {
-                { "fsync", 1 },
-                { "lock", false }
+                { "fsyncUnlock", 1 },
             };
-            var s = admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            for (int i = 0; i < lockCount; i++)
+            {
+                var s = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            }
         }
 
         public void Dispose()
