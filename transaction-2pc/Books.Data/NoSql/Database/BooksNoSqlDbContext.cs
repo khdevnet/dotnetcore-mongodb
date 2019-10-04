@@ -30,19 +30,45 @@ namespace Books.Data.NoSql.Database
             db.DropCollection(GetCollectionName<T>());
         }
 
-        public void IsAvailable()
+        public async Task<int> LockAsync()
         {
             var doc = new Dictionary<string, object>
             {
-                { "connectionStatus", 1 },
-                { "showPrivileges", true }
+                { "fsync", 1 },
+                { "lock", true }
             };
-            admin.RunCommand<BsonDocument>(new BsonDocument(doc));
+            BsonDocument result = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            return result.GetValue("lockCount").ToInt32();
         }
-        public async Task KillSessionAsync(BsonDocument sessionId)
+
+        public async Task UnLockAsync()
         {
-            var dd = sessionId.ToBsonDocument();
-            var dd1 = sessionId.ToJson();
+            ClearInsertOperationsAsync();
+
+            int lockCount = await RunUnlockCommand();
+            while (lockCount > 0)
+            {
+                lockCount = await RunUnlockCommand();
+            }
+        }
+
+        private async Task<int> RunUnlockCommand()
+        {
+            var doc = new Dictionary<string, object>
+            {
+                { "fsyncUnlock", 1 },
+            };
+            var result = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
+            return result.GetValue("lockCount").ToInt32();
+        }
+
+        public void Dispose()
+        {
+            session.Dispose();
+        }
+
+        private void ClearInsertOperationsAsync()
+        {
             List<BsonDocument> agg = admin.Aggregate()
                 .AppendStage<BsonDocument>(new BsonDocument
             {
@@ -68,7 +94,6 @@ namespace Books.Data.NoSql.Database
             .ToList();
 
             var values = agg.Select(x => x.GetValue("opid")).ToList();
-          
 
             values.ForEach(async opId =>
             {
@@ -81,36 +106,6 @@ namespace Books.Data.NoSql.Database
                 var bs = new BsonDocument(doc);
                 BsonDocument s = await admin.RunCommandAsync<BsonDocument>(bs);
             });
-          
-        }
-
-
-        public async Task<int> LockAsync()
-        {
-            var doc = new Dictionary<string, object>
-            {
-                { "fsync", 1 },
-                { "lock", true }
-            };
-            BsonDocument s = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
-            return s.GetValue("lockCount").ToInt32();
-        }
-
-        public async Task UnLockAsync(int lockCount)
-        {
-            var doc = new Dictionary<string, object>
-            {
-                { "fsyncUnlock", 1 },
-            };
-            for (int i = 0; i < lockCount; i++)
-            {
-                var s = await admin.RunCommandAsync<BsonDocument>(new BsonDocument(doc));
-            }
-        }
-
-        public void Dispose()
-        {
-            session.Dispose();
         }
 
         private static string GetCollectionName<TEntity>(TEntity entity)

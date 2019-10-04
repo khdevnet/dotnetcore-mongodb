@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using Books.Data.FileStorage;
+using Books.Data.NoSql;
 using Books.Data.NoSql.Database;
 using Books.Data.Sql.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Books.App
 {
@@ -10,54 +12,59 @@ namespace Books.App
     {
         static void Main(string[] args)
         {
-            var storage = new BookFileStorage();
-
+            var from = Path.Combine(Directory.GetCurrentDirectory(), "sample.pdf");
             var to = Path.Combine(Directory.GetCurrentDirectory(), "sample1.pdf");
+            var bookId = Guid.NewGuid();
+            var sql = CreateSqlDbContext();
+            var noSql = new BooksNoSqlDbContext();
 
+            var noSqlTransaction = new CreateBookTransaction(noSql, CreateNoSqlBook(to, bookId));
+            try
+            {
+                sql.Books.Add(CreateSqlBook(to, bookId));
 
-            //using (var tr = new TransactionScope())
-            //{
-            var id = Guid.NewGuid();
-            var nsBook = new Data.NoSql.Entity.Book
+                new BookFileStorage().Save(from, to);
+
+                noSqlTransaction.Commit();
+                sql.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                noSqlTransaction.Rollback();
+                throw;
+            }
+
+            Console.WriteLine("Transaction done!");
+        }
+
+        private static BooksSqlDbContext CreateSqlDbContext()
+        {
+            var sql = new BooksSqlDbContext();
+            sql.Database.EnsureDeleted();
+            sql.Database.Migrate();
+            return sql;
+        }
+
+        private static Data.NoSql.Entity.Book CreateNoSqlBook(string to, Guid id)
+        {
+            return new Data.NoSql.Entity.Book
             {
                 Id = id,
                 Title = "Test",
                 Author = "Test",
                 Path = to
             };
+        }
 
-            var noSql = new BooksNoSqlDbContext();
-
-            var locks = noSql.LockAsync().Result;
-            noSql.Books.InsertOneAsync(nsBook);
-            noSql.KillSessionAsync(noSql.session.ServerSession.Id).Wait();
-            noSql.UnLockAsync(locks).Wait();
-
-            noSql.Books.InsertOne(nsBook);
-
-            var sql = new BooksSqlDbContext();
-
-            sql.Books.Add(new Data.Sql.Entity.Book
+        private static Data.Sql.Entity.Book CreateSqlBook(string to, Guid id)
+        {
+            return new Data.Sql.Entity.Book
             {
                 Id = id,
                 Title = "Test",
                 Author = "Test",
                 Path = to
-            });
-
-            sql.SaveChanges();
-            //noSql.UnLock();
-            // tr.Complete();
-            //  }
-
-
-
-            // noSql.UnLock();
-
-            var from = Path.Combine(Directory.GetCurrentDirectory(), "sample.pdf");
-            storage.Save(from, to);
-
-            Console.WriteLine("Hello World!");
+            };
         }
     }
 }
