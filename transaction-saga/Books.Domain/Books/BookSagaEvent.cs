@@ -12,6 +12,8 @@ namespace Books.Domain.Books
 
         public BookStatus Status { get; set; }
 
+        public string EventDataType { get; set; }
+
         public string EventData { get; set; }
     }
 }

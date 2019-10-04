@@ -48,6 +48,12 @@ namespace Books.Data.UnitOfWork.Sql.Database
                 .IsRequired();
 
             modelBuilder.Entity<Book>()
+                .Property(p => p.Author)
+                .HasColumnName("author")
+                .HasMaxLength(255)
+                .IsRequired();
+
+            modelBuilder.Entity<Book>()
                 .Property(p => p.Status)
                 .HasColumnName("status")
                 .IsRequired();
@@ -78,6 +84,11 @@ namespace Books.Data.UnitOfWork.Sql.Database
             modelBuilder.Entity<BookSagaEvent>()
                 .Property(p => p.Status)
                 .HasColumnName("status")
+                .IsRequired();
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .Property(p => p.EventDataType)
+                .HasColumnName("event_data_type")
                 .IsRequired();
 
             modelBuilder.Entity<BookSagaEvent>()

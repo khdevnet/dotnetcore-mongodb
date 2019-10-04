@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Books.Domain.Books
 {
-    public class BookFileSavedEvent : BookMessageBase, IRequest, IEvent
+    public class BookFileSavedEvent : BookMessageBase, INotification, IEvent
     {
         public BookFileSavedEvent(Guid id, BookDto dto)
         : base(id, BookStatus.FileSaved, dto)

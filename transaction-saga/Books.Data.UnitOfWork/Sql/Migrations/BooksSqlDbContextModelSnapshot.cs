@@ -25,7 +25,10 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<string>("Author");
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnName("author")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Path")
                         .IsRequired()
@@ -46,7 +49,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7fff3a52-66c5-4f2f-b5d8-2ef7cfeabe37"),
+                            Id = new Guid("497a8e1f-809f-4185-b486-71818a3d7e55"),
                             Author = "Clarke, Arthur C",
                             Path = "books\\clarke_arthur_c_a_space_odissey.pdf",
                             Status = 2,
@@ -54,7 +57,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b193d94-188b-4897-8e56-1823d3f8daca"),
+                            Id = new Guid("afc79c66-9d61-4345-bc42-69b06e369054"),
                             Author = "Heinlein, Robert Anson",
                             Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf",
                             Status = 2,
@@ -62,7 +65,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e841147f-1c94-4699-bdb6-ae55cb0de450"),
+                            Id = new Guid("0cd4ad05-3bc9-4062-bcdb-c02c04041319"),
                             Author = "Niven, Larry",
                             Path = "books\\niven_larry_a_hole_in_space.pdf",
                             Status = 2,
@@ -79,6 +82,10 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     b.Property<string>("EventData")
                         .IsRequired()
                         .HasColumnName("event_data");
+
+                    b.Property<string>("EventDataType")
+                        .IsRequired()
+                        .HasColumnName("event_data_type");
 
                     b.Property<Guid>("SagaId")
                         .HasColumnName("saga_id");

@@ -18,15 +18,15 @@ namespace Books.WebApi.Controllers
     [Route(ApiRoot)]
     [Produces("application/json")]
     [ApiController]
-    public class RetryController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
-        public const string ApiRoot = "api/retry";
+        public const string ApiRoot = "api/transactions";
         private readonly IBookSagaEventRepository bookSagaEventRepository;
         private readonly IMediator mediatr;
         private readonly IBookFileStorage bookFileStorage;
         private readonly IModelConverter modelConverter;
 
-        public RetryController(IBookSagaEventRepository bookSagaEventRepository,
+        public TransactionsController(IBookSagaEventRepository bookSagaEventRepository,
             IMediator mediatr,
             IBookFileStorage bookFileStorage,
             IModelConverter modelConverter)
@@ -43,5 +43,15 @@ namespace Books.WebApi.Controllers
             Ok(bookSagaEventRepository.Get()
                 .GroupBy(x => x.SagaId)
                 .ToDictionary(x => x.Key, x => x.ToList()));
+
+        [HttpPost("id")]
+        public ActionResult Retry(Guid id)
+        {
+            BookSagaEvent sagaEvent = bookSagaEventRepository.Get(id);
+             var eventData = modelConverter.Convert(sagaEvent);
+
+            mediatr.Publish(eventData);
+            return Ok();
+        }
     }
 }

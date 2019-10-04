@@ -25,5 +25,10 @@ namespace Books.Data.UnitOfWork.Sql.Repository
         }
 
         public IReadOnlyCollection<BookSagaEvent> Get() => dbContext.BookSagaEvents.ToList();
+
+        public BookSagaEvent Get(Guid id)
+        {
+            return dbContext.BookSagaEvents.Find(id);
+        }
     }
 }

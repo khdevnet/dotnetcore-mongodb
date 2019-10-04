@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Books.Domain.Books
 {
-    public class BookDoneEvent : BookMessageBase, IRequest, IEvent
+    public class BookDoneEvent : BookMessageBase, INotification, IEvent
     {
         public BookDoneEvent(Guid id, BookDto dto)
         : base(id, BookStatus.Done, dto)

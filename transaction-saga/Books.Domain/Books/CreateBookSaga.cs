@@ -15,11 +15,10 @@ using Newtonsoft.Json;
 namespace Books.Domain.Books
 {
     public class CreateBookSaga :
-        IRequestHandler<CreateBookCommand, Guid>,
-        IRequestHandler<BookCreatedEvent>,
-        IRequestHandler<BookReadSavedEvent>,
-        IRequestHandler<BookFileSavedEvent>,
-        IRequestHandler<CreateBookSagaFailureEvent>
+        INotificationHandler<CreateBookCommand>,
+        INotificationHandler<BookCreatedEvent>,
+        INotificationHandler<BookReadSavedEvent>,
+        INotificationHandler<BookFileSavedEvent>
     {
         private readonly IBookFilePathProvider bookFilePathProvider;
         private readonly IBookFileStorage bookFileStorage;
@@ -44,94 +43,67 @@ namespace Books.Domain.Books
             this.mediator = mediator;
         }
 
-        public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
+            var createdEvent = new BookCreatedEvent(request.Id, request.Book);
+
             using (var transaction = new TransactionScope())
             {
-                var createdEvent = new BookCreatedEvent(request.Id, request.Book);
                 bookSagaEventRepository.Add(ConvertEvent(createdEvent));
                 transaction.Complete();
-
-                await mediator.Send(createdEvent);
-                return await Task.FromResult(request.Id);
             }
+
+            await mediator.Publish(createdEvent);
         }
 
-        public async Task<Unit> Handle(BookCreatedEvent request, CancellationToken cancellationToken)
+        public async Task Handle(BookCreatedEvent request, CancellationToken cancellationToken)
         {
+            var eventData = new BookReadSavedEvent(request.Id, request.Book);
+
             using (var transaction = new TransactionScope())
             {
-                try
+                bookReadRepository.Add(new Book
                 {
-                    bookReadRepository.Add(new Book
-                    {
-                        Id = request.Id,
-                        Author = request.Book.Author,
-                        Title = request.Book.Title,
-                        Status = request.Status
-                    });
-                    var eventData = new BookReadSavedEvent(request.Id, request.Book);
-                    bookSagaEventRepository.Add(ConvertEvent(eventData));
-                    transaction.Complete();
+                    Id = request.Id,
+                    Author = request.Book.Author,
+                    Title = request.Book.Title,
+                    Status = request.Status
+                });
+                bookSagaEventRepository.Add(ConvertEvent(eventData));
+                transaction.Complete();
 
-                    await mediator.Send(eventData);
-                    return await Unit.Task;
-                }
-                catch (Exception ex)
-                {
-                    await mediator.Send(new CreateBookSagaFailureEvent(request.Id));
-                    return await Unit.Task;
-                }
             }
+            await mediator.Publish(eventData);
+
         }
 
-        public async Task<Unit> Handle(BookReadSavedEvent request, CancellationToken cancellationToken)
+        public async Task Handle(BookReadSavedEvent request, CancellationToken cancellationToken)
         {
+            BookFileSavedEvent eventData;
             using (var transaction = new TransactionScope())
             {
-                try
-                {
-                    var savedBook = bookFileStorage.Save(request.Book);
-                    var eventData = new BookFileSavedEvent(request.Id, savedBook);
-                    bookSagaEventRepository.Add(ConvertEvent(eventData));
-                    transaction.Complete();
+                var savedBook = bookFileStorage.Save(request.Book);
+                eventData = new BookFileSavedEvent(request.Id, savedBook);
+                bookSagaEventRepository.Add(ConvertEvent(eventData));
+                transaction.Complete();
 
-                    await mediator.Send(eventData);
-                    return await Unit.Task;
-                }
-                catch (Exception ex)
-                {
-                    await mediator.Send(new CreateBookSagaFailureEvent(request.Id));
-                    return await Unit.Task;
-                }
             }
+            await mediator.Publish(eventData);
+
         }
 
-        public async Task<Unit> Handle(BookFileSavedEvent request, CancellationToken cancellationToken)
+        public Task Handle(BookFileSavedEvent request, CancellationToken cancellationToken)
         {
+            var eventData = new BookDoneEvent(request.Id, request.Book);
+
             using (var transaction = new TransactionScope())
             {
-                try
-                {
-                    var eventData = new BookDoneEvent(request.Id, request.Book);
-                    bookReadRepository.UpdateStatus(request.Id, eventData.Status);
-                    bookSagaEventRepository.Add(ConvertEvent(eventData));
-                    transaction.Complete();
-
-                    return await Unit.Task;
-                }
-                catch (Exception ex)
-                {
-                    await mediator.Send(new CreateBookSagaFailureEvent(request.Id));
-                    return await Unit.Task;
-                }
+                bookReadRepository.UpdateStatus(request.Id, eventData.Status);
+                bookSagaEventRepository.Add(ConvertEvent(eventData));
+                transaction.Complete();
             }
-        }
 
-        public async Task<Unit> Handle(CreateBookSagaFailureEvent request, CancellationToken cancellationToken)
-        {
-            var book = bookWriteRepository.UpdateStatus(request.Id, BookStatus.Failure);
-            return await Unit.Task;
+            return Task.CompletedTask;
         }
 
         private BookSagaEvent ConvertEvent<TEvent>(TEvent eventData)
@@ -141,17 +113,8 @@ namespace Books.Domain.Books
             {
                 SagaId = eventData.Id,
                 Status = eventData.Status,
+                EventDataType = eventData.GetType().FullName,
                 EventData = JsonConvert.SerializeObject(eventData)
-            };
-        }
-
-        private Book Convert(BookDto dto)
-        {
-            return new Book
-            {
-                Title = dto.Title,
-                Author = dto.Author,
-                Path = bookFilePathProvider.GetRelativePath(dto.Title, dto.Author)
             };
         }
     }

@@ -71,8 +71,9 @@ namespace Books.WebApi.Controllers
         [ProducesResponseTypeAttribute(typeof(Guid), 200)]
         public async Task<ActionResult<Book>> CreateSucessfully([FromForm] CreateBookRequestModel bookModel)
         {
-            var bookId = await mediatr.Send(new CreateBookCommand(modelConverter.Convert(bookModel)));
-            return Ok(new { id = bookId });
+            var command = new CreateBookCommand(modelConverter.Convert(bookModel));
+            await mediatr.Publish(command);
+            return Ok(new { id = command.Id });
         }
 
         //[HttpPost("fail")]

@@ -4,7 +4,7 @@ using System;
 
 namespace Books.Domain.Books
 {
-    public class CreateBookCommand : BookMessageBase, IRequest<Guid>
+    public class CreateBookCommand : BookMessageBase, INotification
     {
         public CreateBookCommand(BookDto book)
         : base(Guid.NewGuid(), BookStatus.Created, book)

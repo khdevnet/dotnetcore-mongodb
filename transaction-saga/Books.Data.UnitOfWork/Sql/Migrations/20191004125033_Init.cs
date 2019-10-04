@@ -15,7 +15,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     title = table.Column<string>(maxLength: 255, nullable: false),
                     status = table.Column<int>(nullable: false),
                     path = table.Column<string>(nullable: false),
-                    Author = table.Column<string>(nullable: true)
+                    author = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,6 +29,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     id = table.Column<Guid>(nullable: false),
                     saga_id = table.Column<Guid>(nullable: false),
                     status = table.Column<int>(nullable: false),
+                    event_data_type = table.Column<string>(nullable: false),
                     event_data = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -38,12 +39,12 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
 
             migrationBuilder.InsertData(
                 table: "book",
-                columns: new[] { "id", "Author", "path", "status", "title" },
+                columns: new[] { "id", "author", "path", "status", "title" },
                 values: new object[,]
                 {
-                    { new Guid("7fff3a52-66c5-4f2f-b5d8-2ef7cfeabe37"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", 2, "A Space Odissey" },
-                    { new Guid("5b193d94-188b-4897-8e56-1823d3f8daca"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", 2, "A tenderfoot in space" },
-                    { new Guid("e841147f-1c94-4699-bdb6-ae55cb0de450"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", 2, "A Hole in Space" }
+                    { new Guid("497a8e1f-809f-4185-b486-71818a3d7e55"), "Clarke, Arthur C", "books\\clarke_arthur_c_a_space_odissey.pdf", 2, "A Space Odissey" },
+                    { new Guid("afc79c66-9d61-4345-bc42-69b06e369054"), "Heinlein, Robert Anson", "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf", 2, "A tenderfoot in space" },
+                    { new Guid("0cd4ad05-3bc9-4062-bcdb-c02c04041319"), "Niven, Larry", "books\\niven_larry_a_hole_in_space.pdf", 2, "A Hole in Space" }
                 });
         }
 

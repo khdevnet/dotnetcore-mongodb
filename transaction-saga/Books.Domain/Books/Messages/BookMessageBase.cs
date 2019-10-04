@@ -15,6 +15,6 @@ namespace Books.Domain.Books.Messages
 
         public BookStatus Status { get; }
 
-        public BookDto Book { get; }
+        public BookDto Book { get; set; }
     }
 }
