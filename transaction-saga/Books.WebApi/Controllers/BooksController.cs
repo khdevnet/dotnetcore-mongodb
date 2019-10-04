@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Books.Domain;
@@ -67,12 +68,11 @@ namespace Books.WebApi.Controllers
         }
 
         [HttpPost("sucessfully")]
-        [ProducesResponseTypeAttribute(typeof(BookResponseModel), 201)]
+        [ProducesResponseTypeAttribute(typeof(Guid), 200)]
         public async Task<ActionResult<Book>> CreateSucessfully([FromForm] CreateBookRequestModel bookModel)
         {
-            var book = await mediatr.Send(new CreateBookCommand(modelConverter.Convert(bookModel)));
-
-            return CreatedAtRoute(nameof(GetBook), new { id = book.Id.ToString() }, modelConverter.Convert(book, GetHostUrl()));
+            var bookId = await mediatr.Send(new CreateBookCommand(modelConverter.Convert(bookModel)));
+            return Ok(new { id = bookId });
         }
 
         //[HttpPost("fail")]

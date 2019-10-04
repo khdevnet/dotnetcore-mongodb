@@ -6,7 +6,7 @@ namespace Books.Domain
     {
         public string Title { get; set; }
 
-        public byte[] File { get; set; }
+        public string File { get; set; }
 
         public string Author { get; set; }
     }

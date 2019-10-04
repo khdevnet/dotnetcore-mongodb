@@ -2,6 +2,7 @@
 using System.IO;
 using Books.Domain;
 using Books.Domain.Books;
+using Books.Domain.Extensibility;
 using Books.WebApi.Controllers;
 using Books.WebApi.Models;
 
@@ -9,6 +10,12 @@ namespace Books.WebApi.Converters
 {
     public class ModelConverter : IModelConverter
     {
+        private readonly IBookFileStorage bookFileStorage;
+
+        public ModelConverter(IBookFileStorage bookFileStorage)
+        {
+            this.bookFileStorage = bookFileStorage;
+        }
         public BookResponseModel Convert(Book book, Uri rootUrl)
         {
             return new BookResponseModel
@@ -23,16 +30,14 @@ namespace Books.WebApi.Converters
 
         public BookDto Convert(CreateBookRequestModel bookModel)
         {
-            using (var memoryStream = new MemoryStream())
+            string tempPath = bookFileStorage.SaveTemp(bookModel.File);
+
+            return new BookDto
             {
-                bookModel.File.CopyTo(memoryStream);
-                return new BookDto
-                {
-                    Author = bookModel.Author,
-                    Title = bookModel.Title,
-                    File = memoryStream.ToArray()
-                };
-            }
+                Author = bookModel.Author,
+                Title = bookModel.Title,
+                File = tempPath
+            };
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Books.WebApi.Configurations
         public static void RegisterSqlServices(this IServiceCollection services)
         {
             services.AddTransient<IBookWriteRepository, BookWriteRepository>();
+            services.AddTransient<IBookSagaEventRepository, BookSagaEventRepository>();
         }
 
         public static void ApplySqlDbMigrations(this IApplicationBuilder app)

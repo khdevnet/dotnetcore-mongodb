@@ -20,7 +20,7 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         }
 
         public IReadOnlyCollection<BookDomain> Get() =>
-            dbContext.Books.Find(book => true).ToList().Select(Map).Where(x=>x.Status == BookStatus.FileSaved).ToList();
+            dbContext.Books.Find(book => true).ToList().Select(Map).Where(x => x.Status == BookStatus.Done).ToList();
 
         public BookDomain Get(Guid id) =>
             Map(dbContext.Books.Find<Book>(book => book.Id == id).FirstOrDefault());
@@ -29,6 +29,13 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         {
             var bookEntity = Map(book);
             dbContext.Books.InsertOne(bookEntity);
+            return Map(bookEntity);
+        }
+
+        public BookDomain Update(BookDomain book)
+        {
+            var bookEntity = Map(book);
+            dbContext.Books.ReplaceOne(Builders<Book>.Filter.Eq(s => s.Id, book.Id), bookEntity);
             return Map(bookEntity);
         }
 
@@ -48,6 +55,11 @@ namespace Books.Data.UnitOfWork.NoSql.Repository
         public void Update(Guid id, BookDomain bookIn) =>
             dbContext.Books.ReplaceOne(book => book.Id == id, Map(bookIn));
 
+        public void UpdateStatus(Guid id, BookStatus status)
+        {
+            var set = Builders<Book>.Update.Set(s => s.Status, status.ToString());
+            dbContext.Books.UpdateOne(b => b.Id == id, set);
+        }
         private BookDomain Map(Book book)
         {
             return new BookDomain()

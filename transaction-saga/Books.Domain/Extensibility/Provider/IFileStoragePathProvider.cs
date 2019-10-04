@@ -7,5 +7,6 @@ namespace Books.Domain.Extensibility.Provider
     public interface IFileStoragePathProvider
     {
         string GetRoot();
+        string GetTemp();
     }
 }

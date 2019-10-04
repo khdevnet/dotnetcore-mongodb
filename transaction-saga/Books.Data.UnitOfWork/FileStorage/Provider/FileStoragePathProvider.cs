@@ -12,5 +12,8 @@ namespace Books.Data.FileStorage.Provider
     {
         public string GetRoot()
             => Path.Combine(Directory.GetCurrentDirectory(), "AppData", "files");
+        public string GetTemp()
+         => Path.Combine(Directory.GetCurrentDirectory(), "AppData", "temp", Guid.NewGuid().ToString());
+
     }
 }

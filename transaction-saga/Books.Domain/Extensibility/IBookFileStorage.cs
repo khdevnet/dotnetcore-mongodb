@@ -1,8 +1,12 @@
-﻿namespace Books.Domain.Extensibility
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Books.Domain.Extensibility
 {
     public interface IBookFileStorage
     {
-        string Save(BookDto book);
+        string SaveTemp(IFormFile File);
+
+        BookDto Save(BookDto book);
 
         string Delete(BookDto book);
 

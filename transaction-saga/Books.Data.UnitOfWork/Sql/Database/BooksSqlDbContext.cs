@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Books.Domain;
+using Books.Domain.Books;
 using Books.Domain.Extensibility.Provider;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +20,12 @@ namespace Books.Data.UnitOfWork.Sql.Database
 
         public DbSet<Book> Books { get; set; }
 
-        // public DbSet<CreateBookSaga> CreateBookSagas { get; set; }
+        public DbSet<BookSagaEvent> BookSagaEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             BuildBook(modelBuilder);
+            BuildSaga(modelBuilder);
             SeedBooks(modelBuilder);
         }
 
@@ -53,6 +55,34 @@ namespace Books.Data.UnitOfWork.Sql.Database
             modelBuilder.Entity<Book>()
                 .Property(p => p.Path)
                 .HasColumnName("path")
+                .IsRequired();
+        }
+
+        private static void BuildSaga(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookSagaEvent>().ToTable("book_saga");
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .Property(b => b.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .Property(p => p.SagaId)
+                .HasColumnName("saga_id")
+                .IsRequired();
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .Property(p => p.Status)
+                .HasColumnName("status")
+                .IsRequired();
+
+            modelBuilder.Entity<BookSagaEvent>()
+                .Property(p => p.EventData)
+                .HasColumnName("event_data")
                 .IsRequired();
         }
 

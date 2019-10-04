@@ -46,7 +46,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("696f5e4b-c403-41bb-8601-549d2d11ccc9"),
+                            Id = new Guid("7fff3a52-66c5-4f2f-b5d8-2ef7cfeabe37"),
                             Author = "Clarke, Arthur C",
                             Path = "books\\clarke_arthur_c_a_space_odissey.pdf",
                             Status = 2,
@@ -54,7 +54,7 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c03ad1a9-2c1f-4053-8e8a-25db211502d7"),
+                            Id = new Guid("5b193d94-188b-4897-8e56-1823d3f8daca"),
                             Author = "Heinlein, Robert Anson",
                             Path = "books\\heinlein_robert_anson_a_tenderfoot_in_space.pdf",
                             Status = 2,
@@ -62,12 +62,33 @@ namespace Books.Data.UnitOfWork.Sql.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c41e17f4-1453-4bfd-b35b-e55aef907278"),
+                            Id = new Guid("e841147f-1c94-4699-bdb6-ae55cb0de450"),
                             Author = "Niven, Larry",
                             Path = "books\\niven_larry_a_hole_in_space.pdf",
                             Status = 2,
                             Title = "A Hole in Space"
                         });
+                });
+
+            modelBuilder.Entity("Books.Domain.Books.BookSagaEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("EventData")
+                        .IsRequired()
+                        .HasColumnName("event_data");
+
+                    b.Property<Guid>("SagaId")
+                        .HasColumnName("saga_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("book_saga");
                 });
 #pragma warning restore 612, 618
         }

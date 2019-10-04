@@ -3,7 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-Books.WebApi/AppData/
+Books.WebApi/AppData/files/books
+Books.WebApi/AppData/temp
 
 # User-specific files
 *.suo

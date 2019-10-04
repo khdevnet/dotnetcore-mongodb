@@ -7,7 +7,6 @@ namespace Books.Domain.Books
     {
         public CreateBookSagaFailureEvent(Guid id)
         {
-            this.Id = id;
         }
         public Guid Id { get; }
     }
