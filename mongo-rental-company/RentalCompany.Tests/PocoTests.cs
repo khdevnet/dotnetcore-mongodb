@@ -8,14 +8,13 @@ using Xunit.Abstractions;
 
 namespace RentalCompany.Tests
 {
-    public class PocoTests
+    public class PocoTests: UnitTestsBase
     {
         private readonly ITestOutputHelper output;
 
         public PocoTests(ITestOutputHelper output)
         {
             this.output = output;
-            JsonWriterSettings.Defaults.Indent = true;
         }
 
         [Fact]

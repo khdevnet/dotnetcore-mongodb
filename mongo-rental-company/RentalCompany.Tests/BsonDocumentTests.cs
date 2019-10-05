@@ -15,8 +15,8 @@ namespace RentalCompany.Tests
         public BsonDocumentTests(ITestOutputHelper output)
         {
             this.output = output;
-            JsonWriterSettings.Defaults.Indent = true;
         }
+
         [Fact]
         public void EmptyDocument()
         {
