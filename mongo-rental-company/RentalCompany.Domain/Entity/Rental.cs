@@ -10,5 +10,6 @@ namespace RentalCompany.Domain.Entity
         public int NumberOfRooms { get; set; }
         public List<string> Address { get; set; } = new List<string>();
         public decimal Price { get; set; }
+        public List<AdjustmentPrice> PriceAdjustments { get; set; } = new List<AdjustmentPrice>();
     }
 }

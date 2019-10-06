@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using RentalCompany.Domain.Entity;
 using System;
@@ -19,7 +20,8 @@ namespace RentalCompany.Domain.Mapper
                 .SetSerializer(new DecimalSerializer(BsonType.Double));
 
                 cm.MapIdMember(c => c.Id)
-                .SetSerializer(new StringSerializer(BsonType.ObjectId));
+                .SetSerializer(new StringSerializer(BsonType.ObjectId))
+                .SetIdGenerator(StringObjectIdGenerator.Instance);
 
             });
         }
