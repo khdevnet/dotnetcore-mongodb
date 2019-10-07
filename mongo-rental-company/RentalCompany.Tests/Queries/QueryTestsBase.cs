@@ -45,18 +45,22 @@ namespace RentalCompany.Tests.Queries
             {
                new InsertOneModel<Rental>(CreateRental( "rental 1", 100, new [] { "TV", "Radio", "Phone"})),
                new InsertOneModel<Rental>(CreateRental( "rental 2", 90, new [] { "TV"})),
-               new InsertOneModel<Rental>(CreateRental( "rental 3", 150, new [] { "TV", "Radio", "Phone", "Refrigerator"})),
+               new InsertOneModel<Rental>(CreateRental( "rental 3", 150, new [] { "TV", "Radio", "Phone", "Refrigerator"}, 3)),
             };
 
             db.Rentals.BulkWrite(rentals);
         }
 
-        private static Rental CreateRental(string title, decimal price, IEnumerable<string> amenities)
+        private static Rental CreateRental(
+            string title,
+            decimal price,
+            IEnumerable<string> amenities,
+            int numberOfRooms = 2)
         {
             var rental = new Rental
             {
                 Description = title,
-                NumberOfRooms = 2,
+                NumberOfRooms = numberOfRooms,
                 Price = price,
                 Address = new List<string>()
                 {

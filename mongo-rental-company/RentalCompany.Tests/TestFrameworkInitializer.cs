@@ -12,7 +12,7 @@ namespace RentalCompany.Tests
           : base(messageSink)
         {
             JsonWriterSettings.Defaults.Indent = true;
-            BsonMapperInitializer.Init();
+            MongoDbInitializer.Init();
         }
 
         public new void Dispose()
