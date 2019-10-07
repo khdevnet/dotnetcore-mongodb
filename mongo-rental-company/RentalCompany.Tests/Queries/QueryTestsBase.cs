@@ -66,7 +66,8 @@ namespace RentalCompany.Tests.Queries
                 {
                     "Address1"
                 },
-                Amenities = amenities.ToList()
+                Amenities = amenities.ToList(),
+                Beds = new[] { 1, 2 }
             };
             return rental;
         }
