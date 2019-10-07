@@ -1,8 +1,5 @@
 ﻿using MongoDB.Driver;
 using RentalCompany.Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RentalCompany.Domain
 {
@@ -11,10 +8,17 @@ namespace RentalCompany.Domain
         private readonly MongoClient client;
         private readonly IMongoDatabase db;
 
-        public RentalDbContext()
+        public RentalDbContext() :
+            this("mongodb://localhost:27017", "rentalCompany")
         {
             client = new MongoClient("mongodb://localhost:27017");
             db = client.GetDatabase("rentalCompany");
+        }
+
+        public RentalDbContext(string connection, string dbName)
+        {
+            client = new MongoClient(connection);
+            db = client.GetDatabase(dbName);
         }
 
         public IMongoCollection<Rental> Rentals => db.GetCollection<Rental>(typeof(Rental).Name.ToLower());

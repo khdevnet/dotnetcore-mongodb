@@ -1,8 +1,5 @@
 ﻿using MongoDB.Bson.IO;
 using RentalCompany.Domain.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 

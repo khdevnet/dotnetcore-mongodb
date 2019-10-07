@@ -7,7 +7,7 @@ using Xunit;
 
 namespace RentalCompany.Tests.Domain.Entity
 {
-    public class RentalTests : UnitTestsBase
+    public class RentalTests
     {
         [Fact]
         public void ToDocumentRentalWithPricePriceRepresentedAsDouble()
