@@ -28,6 +28,45 @@ For example, suppose we have an application with several components: a logging c
 Splitting these up by importance, we might end up with three databases: logs, activities, and users. The nice thing about this strategy is that you may find that your highest value data is also your smallest (for instance, users probably don’t generate as much data
 as your logging does). You might not be able to afford an SSD for your entire data set, but you might be able to get one for your users. Or use RAID10 for users and RAID0 for logs and activities.
 
+### Continuation document
+Regardless of which strategy you use, embedding only works with a limited number of subdocuments or references. If you have celebrity users, they may overflow any document that you’re storing followers in. The typical way of compensating this is to have a “continuation” document, if necessary.
+
+```
+db.users.find({"username" : "wil"})
+{
+"_id" : ObjectId("51252871d86041c7dca8191a"),
+"username" : "wil",
+"email" : "wil@example.com",
+"tbc" : [
+ObjectId("512528ced86041c7dca8191e"),
+ObjectId("5126510dd86041c7dca81924")
+]
+"followers" : [
+ObjectId("512528a0d86041c7dca8191b"),
+ObjectId("512528a2d86041c7dca8191c"),
+ObjectId("512528a3d86041c7dca8191d"),
+...
+]
+}
+{
+"_id" : ObjectId("512528ced86041c7dca8191e"),
+"followers" : [
+ObjectId("512528f1d86041c7dca8191f"),
+ObjectId("512528f6d86041c7dca81920"),
+ObjectId("512528f8d86041c7dca81921"),
+...
+]
+}
+{
+"_id" : ObjectId("5126510dd86041c7dca81924"),
+"followers" : [
+ObjectId("512673e1d86041c7dca81925"),
+ObjectId("512650efd86041c7dca81922"),
+ObjectId("512650fdd86041c7dca81923"),
+...
+]
+}
+```
 ### Migrating scheme
 To handle changing requirements in a slightly more structured way you can include a "version" field (or just "v") in each document and use that to determine what your application will accept for document structure. Migrating of all the data generally is not a good idea.
 
