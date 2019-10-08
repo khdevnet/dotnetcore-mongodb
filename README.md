@@ -31,5 +31,12 @@ as your logging does). You might not be able to afford an SSD for your entire da
 ### Migrating scheme
 To handle changing requirements in a slightly more structured way you can include a "version" field (or just "v") in each document and use that to determine what your application will accept for document structure. Migrating of all the data generally is not a good idea.
 
+### Aggregation Performance
+* **Keep memory under check**: mongodb aggregation execution will fail if memory limit (10%) will reached.
+* **Don't visit every document**: use $match, $limit to limit number of documents for processing.
+* **Use only necessary fields**: use $project to get only fields needed for query it will give you memory space.
+* **Sort Early**: sort before $group, $project, $unwind. 
+* **Leverage indexes**: use indexes where it possible.
+
 # Resources
 * [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
