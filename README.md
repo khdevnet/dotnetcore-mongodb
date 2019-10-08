@@ -84,4 +84,4 @@ To handle changing requirements in a slightly more structured way you can includ
 * **Leverage indexes**: use indexes where it possible.
 
 # Resources
-* [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
+* [mongodb .net driver](http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/expressions/)
