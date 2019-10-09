@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Books.Data;
 using Books.Data.FileStorage;
 using Books.Data.NoSql;
 using Books.Data.NoSql.Database;
@@ -15,34 +16,25 @@ namespace Books.App
             var from = Path.Combine(Directory.GetCurrentDirectory(), "sample.pdf");
             var to = Path.Combine(Directory.GetCurrentDirectory(), "sample1.pdf");
             var bookId = Guid.NewGuid();
-            var sql = CreateSqlDbContext();
-            var noSql = new BooksNoSqlDbContext();
 
-            var noSqlTransaction = new CreateBookTransaction(noSql, CreateNoSqlBook(to, bookId));
+            var createBookDbTransaction = new CreateBookDbUnitOfWork(
+                CreateSqlBook(to, bookId),
+                CreateNoSqlBook(to, bookId));
+
             try
             {
-                sql.Books.Add(CreateSqlBook(to, bookId));
-
+               // throw new Exception();
                 new BookFileStorage().Save(from, to);
 
-                noSqlTransaction.Commit();
-                sql.SaveChanges();
+                createBookDbTransaction.Commit();
             }
             catch (Exception ex)
             {
-                noSqlTransaction.Rollback();
+                createBookDbTransaction.Rollback();
                 throw;
             }
 
             Console.WriteLine("Transaction done!");
-        }
-
-        private static BooksSqlDbContext CreateSqlDbContext()
-        {
-            var sql = new BooksSqlDbContext();
-            sql.Database.EnsureDeleted();
-            sql.Database.Migrate();
-            return sql;
         }
 
         private static Data.NoSql.Entity.Book CreateNoSqlBook(string to, Guid id)

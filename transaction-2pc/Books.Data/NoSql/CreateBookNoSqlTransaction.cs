@@ -8,14 +8,14 @@ using System.Transactions;
 
 namespace Books.Data.NoSql
 {
-    public class CreateBookTransaction : IDisposable
+    public class CreateBookNoSqlTransaction : IDisposable
     {
         private readonly BooksNoSqlDbContext db;
         private readonly Book book;
 
-        public CreateBookTransaction(BooksNoSqlDbContext db, Book book)
+        public CreateBookNoSqlTransaction(Book book)
         {
-            this.db = db;
+            this.db = new BooksNoSqlDbContext();
             this.book = book;
             Start();
         }

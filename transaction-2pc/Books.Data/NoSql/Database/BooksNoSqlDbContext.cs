@@ -43,12 +43,12 @@ namespace Books.Data.NoSql.Database
 
         public async Task UnLockAsync()
         {
-            ClearInsertOperationsAsync();
+            ClearInsertOperations();
 
-            int lockCount = await RunUnlockCommand();
+            int lockCount = GetLocksAsync().Result;
             while (lockCount > 0)
             {
-                lockCount = await RunUnlockCommand();
+                lockCount = RunUnlockCommand().Result;
             }
         }
 
@@ -67,7 +67,12 @@ namespace Books.Data.NoSql.Database
             session.Dispose();
         }
 
-        private void ClearInsertOperationsAsync()
+        private async Task<int> GetLocksAsync()
+        {
+            return await LockAsync();
+        }
+
+        private void ClearInsertOperations()
         {
             List<BsonDocument> agg = admin.Aggregate()
                 .AppendStage<BsonDocument>(new BsonDocument
