@@ -1,4 +1,10 @@
 # MongoDb 
+* [transaction-replicaset](https://github.com/khdevnet/mongodb/tree/master/transaction-replicaset)
+* [transaction-2pc](https://github.com/khdevnet/mongodb/tree/master/transaction-2pc)
+* [transaction-saga](https://github.com/khdevnet/mongodb/tree/master/transaction-saga)
+* [simple queries](https://github.com/khdevnet/mongodb/tree/master/mongo-rental-company)
+* [streams sample](https://github.com/khdevnet/mongodb/tree/master/streams)
+
 ### Padding document 
 When MongoDB has to move a document, it bumps the collection’s padding factor, which is the amount of extra space MongoDB leaves around new documents to give them room to grow. You can see the padding factor by running db.coll.stats(). Before doing the update above, the "paddingFactor" field will be 1: allocate exactly the size of the document for each new document. If you run it again after making one of the documents larger, you’ll see that it has grown to around 1.5: each new document will be given half of its size in free space to grow. If subsequent updates cause more moves, the padding factor will continue to grow
 (although not as dramatically as it did on the first move). If there aren’t more moves, the padding factor will slowly go down.
@@ -78,4 +84,4 @@ To handle changing requirements in a slightly more structured way you can includ
 * **Leverage indexes**: use indexes where it possible.
 
 # Resources
-* [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
+* [mongodb .net driver](http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/expressions/)
