@@ -20,11 +20,11 @@ namespace MongoSchemaMigration
         {
             Fixture fixture = new Fixture();
 
-            var profileV1 = fixture.Create<MemberProfileDto>();
+            var profileV1 = fixture.Create<MyClass>();
 
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(profileV1);
-            var doc1 = BsonSerializer.Deserialize<MemberProfileDtoV2>(jsonString);
-            Assert.Equal(doc1.MyOrgaizationProfile.OrderManagerModules.Order.Order, true);
+            var doc1 = BsonSerializer.Deserialize<MyClassv2>(jsonString);
+            Assert.Equal(doc1.FirstName, "");
         }
 
         #region SimpleMigration
@@ -79,96 +79,10 @@ namespace MongoSchemaMigration
     }
 
 
-
-
-
-
-    public class SupportedReverseDocumentsDto
-    {
-        public bool OrderResponse { get; set; }
-
-        public bool DispatchAdvice { get; set; }
-
-        public bool Invoice { get; set; }
-    }
-
-    public class OrderManagerModulesDto
-    {
-        public bool Order { get; set; }
-
-        public bool EInvoice { get; set; }
-
-        public bool ReturnsAndWarranty { get; set; }
-
-        public bool Cmd { get; set; }
-
-        public bool Cmi { get; set; }
-    }
-
-    public class OrderManagerModulesDtoV2
-    {
-        public OrderModule Order { get; set; }
-
-        public bool EInvoice { get; set; }
-
-        public bool ReturnsAndWarranty { get; set; }
-
-        public bool Cmd { get; set; }
-
-        public bool Cmi { get; set; }
-    }
-
-    public class OrderModule
-    {
-        public bool Order { get; set; }
-
-        public SupportedReverseDocumentsDto SupportedReverseDocuments { get; set; }
-    }
-
-    public class MyOrganizationProfileDto
-    {
-        public OrderManagerModulesDto OrderManagerModules { get; set; }
-
-        public SupportedReverseDocumentsDto SupportedReverseDocuments { get; set; }
-    }
-
-    public class MyOrganizationProfileDtoV2
-    {
-        public OrderManagerModulesDtoV2 OrderManagerModules { get; set; }
-    }
-
-    public class MemberProfileDto
-    {
-        public MyOrganizationProfileDto MyOrgaizationProfile { get; set; }
-
-    }
-
-    public class MemberProfileDtoV2 : ISupportInitialize
-    {
-        public BsonDocument CatchAll { get; set; }
-        public MyOrganizationProfileDtoV2 MyOrgaizationProfile { get; set; }
-
-        void ISupportInitialize.BeginInit()
-        {
-            // nothing to do at beginning
-        }
-
-        void ISupportInitialize.EndInit()
-        {
-        }
-    }
-
     public class MongoDbFixture : IDisposable
     {
         public MongoDbFixture()
         {
-            BsonClassMap.RegisterClassMap<MemberProfileDtoV2>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapExtraElementsMember(c => c.CatchAll);
-            });
-
-            
         }
 
         public void Dispose()
