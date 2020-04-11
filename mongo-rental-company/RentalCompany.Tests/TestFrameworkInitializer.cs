@@ -1,8 +1,5 @@
 ﻿using MongoDB.Bson.IO;
 using RentalCompany.Domain.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -15,7 +12,7 @@ namespace RentalCompany.Tests
           : base(messageSink)
         {
             JsonWriterSettings.Defaults.Indent = true;
-            BsonMapperInitializer.Init();
+            MongoDbInitializer.Init();
         }
 
         public new void Dispose()

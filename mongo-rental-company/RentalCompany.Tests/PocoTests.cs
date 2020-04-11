@@ -1,14 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace RentalCompany.Tests
 {
-    public class PocoTests: UnitTestsBase
+    public class PocoTests
     {
         private readonly ITestOutputHelper output;
 
@@ -28,10 +25,10 @@ namespace RentalCompany.Tests
                  {
                      "Address1"
                  },
-                 Contact = new Contact
-                 {
-                      Email = "test@gmail.com"
-                 }
+                Contact = new Contact
+                {
+                    Email = "test@gmail.com"
+                }
             };
 
             output.WriteLine(d.ToJson());

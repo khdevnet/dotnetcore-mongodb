@@ -1,4 +1,10 @@
 # MongoDb 
+* [transaction-replicaset](https://github.com/khdevnet/mongodb/tree/master/transaction-replicaset)
+* [transaction-2pc](https://github.com/khdevnet/mongodb/tree/master/transaction-2pc)
+* [transaction-saga](https://github.com/khdevnet/mongodb/tree/master/transaction-saga)
+* [simple queries](https://github.com/khdevnet/mongodb/tree/master/mongo-rental-company)
+* [streams sample](https://github.com/khdevnet/mongodb/tree/master/streams)
+
 ### Padding document 
 When MongoDB has to move a document, it bumps the collection’s padding factor, which is the amount of extra space MongoDB leaves around new documents to give them room to grow. You can see the padding factor by running db.coll.stats(). Before doing the update above, the "paddingFactor" field will be 1: allocate exactly the size of the document for each new document. If you run it again after making one of the documents larger, you’ll see that it has grown to around 1.5: each new document will be given half of its size in free space to grow. If subsequent updates cause more moves, the padding factor will continue to grow
 (although not as dramatically as it did on the first move). If there aren’t more moves, the padding factor will slowly go down.
@@ -28,8 +34,54 @@ For example, suppose we have an application with several components: a logging c
 Splitting these up by importance, we might end up with three databases: logs, activities, and users. The nice thing about this strategy is that you may find that your highest value data is also your smallest (for instance, users probably don’t generate as much data
 as your logging does). You might not be able to afford an SSD for your entire data set, but you might be able to get one for your users. Or use RAID10 for users and RAID0 for logs and activities.
 
+### Continuation document
+Regardless of which strategy you use, embedding only works with a limited number of subdocuments or references. If you have celebrity users, they may overflow any document that you’re storing followers in. The typical way of compensating this is to have a “continuation” document, if necessary.
+
+```
+db.users.find({"username" : "wil"})
+{
+"_id" : ObjectId("51252871d86041c7dca8191a"),
+"username" : "wil",
+"email" : "wil@example.com",
+"tbc" : [
+ObjectId("512528ced86041c7dca8191e"),
+ObjectId("5126510dd86041c7dca81924")
+]
+"followers" : [
+ObjectId("512528a0d86041c7dca8191b"),
+ObjectId("512528a2d86041c7dca8191c"),
+ObjectId("512528a3d86041c7dca8191d"),
+...
+]
+}
+{
+"_id" : ObjectId("512528ced86041c7dca8191e"),
+"followers" : [
+ObjectId("512528f1d86041c7dca8191f"),
+ObjectId("512528f6d86041c7dca81920"),
+ObjectId("512528f8d86041c7dca81921"),
+...
+]
+}
+{
+"_id" : ObjectId("5126510dd86041c7dca81924"),
+"followers" : [
+ObjectId("512673e1d86041c7dca81925"),
+ObjectId("512650efd86041c7dca81922"),
+ObjectId("512650fdd86041c7dca81923"),
+...
+]
+}
+```
 ### Migrating scheme
 To handle changing requirements in a slightly more structured way you can include a "version" field (or just "v") in each document and use that to determine what your application will accept for document structure. Migrating of all the data generally is not a good idea.
 
+### Aggregation Performance
+* **Keep memory under check**: mongodb aggregation execution will fail if memory limit (10%) will reached.
+* **Don't visit every document**: use $match, $limit to limit number of documents for processing.
+* **Use only necessary fields**: use $project to get only fields needed for query it will give you memory space.
+* **Sort Early**: sort before $group, $project, $unwind. 
+* **Leverage indexes**: use indexes where it possible.
+
 # Resources
-* [transactional-ntfs](https://docs.microsoft.com/en-us/windows/win32/fileio/transactional-ntfs-portal)
+* [mongodb .net driver](http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/expressions/)
