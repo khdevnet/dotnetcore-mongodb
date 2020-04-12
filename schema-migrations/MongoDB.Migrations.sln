@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Migrations.Tool", "MongoDB.Migrations.Tool\MongoDB.Migrations.Tool.csproj", "{99A94803-89CC-4639-A085-7FCD48ED7628}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Migrations.Schema", "MongoDB.Migrations.Schema\MongoDB.Migrations.Schema.csproj", "{AD17480D-AB8A-4A86-87AE-C335BB39315F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Migrations.Common", "MongoDB.Migrations.Common\MongoDB.Migrations.Common.csproj", "{3ED9F210-4C12-4F81-BD83-CE101CD2F701}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockerHttpClient.Tests", "DockerClient.Tests\DockerHttpClient.Tests.csproj", "{137D4DEA-56DF-484E-8587-F95A902571EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Migrations.Tool", "MongoDB.Migrations.Tool\MongoDB.Migrations.Tool.csproj", "{5E4D6DE5-46F5-48C1-86D1-4F6FDF16E325}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Migrations.Mongo2Go", "MongoDB.Migrations.Mongo2Go\MongoDB.Migrations.Mongo2Go.csproj", "{47A7A65B-05E0-41F6-9F1C-4B7A42F647EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDB.Migrations.MongoDocker", "MongoDB.Migrations.MongoDocker\MongoDB.Migrations.MongoDocker.csproj", "{C2623700-1499-46B9-85FE-5DCCFCB86762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{99A94803-89CC-4639-A085-7FCD48ED7628}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99A94803-89CC-4639-A085-7FCD48ED7628}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99A94803-89CC-4639-A085-7FCD48ED7628}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99A94803-89CC-4639-A085-7FCD48ED7628}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD17480D-AB8A-4A86-87AE-C335BB39315F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD17480D-AB8A-4A86-87AE-C335BB39315F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD17480D-AB8A-4A86-87AE-C335BB39315F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +33,18 @@ Global
 		{137D4DEA-56DF-484E-8587-F95A902571EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{137D4DEA-56DF-484E-8587-F95A902571EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{137D4DEA-56DF-484E-8587-F95A902571EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E4D6DE5-46F5-48C1-86D1-4F6FDF16E325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4D6DE5-46F5-48C1-86D1-4F6FDF16E325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4D6DE5-46F5-48C1-86D1-4F6FDF16E325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4D6DE5-46F5-48C1-86D1-4F6FDF16E325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A7A65B-05E0-41F6-9F1C-4B7A42F647EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A7A65B-05E0-41F6-9F1C-4B7A42F647EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A7A65B-05E0-41F6-9F1C-4B7A42F647EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A7A65B-05E0-41F6-9F1C-4B7A42F647EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2623700-1499-46B9-85FE-5DCCFCB86762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2623700-1499-46B9-85FE-5DCCFCB86762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2623700-1499-46B9-85FE-5DCCFCB86762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2623700-1499-46B9-85FE-5DCCFCB86762}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

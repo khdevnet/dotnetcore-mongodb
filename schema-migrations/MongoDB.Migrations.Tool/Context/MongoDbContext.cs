@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mongo.Migration.Migrations.Adapters;
+using Mongo.Migration.Startup.Static;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Migrations.Tool.Books;
-using MongoDB.Migrations.Tool.Books.Entity;
-using Newtonsoft.Json;
+using MongoDB.Migrations.Tool.Context.Entity;
 
 namespace MongoDB.Migrations.Tool.Context
 {
@@ -28,14 +29,14 @@ namespace MongoDB.Migrations.Tool.Context
                 return;
             }
 
-            IEnumerable<Book> books = ReadBooksFromTestData();
-            Books.InsertMany(books);
+            IEnumerable<BsonDocument> books = ReadBooksFromTestData();
+            db.GetCollection<BsonDocument>("books").InsertMany(books);
         }
 
-        private static IEnumerable<Book> ReadBooksFromTestData()
+        private static IEnumerable<BsonDocument> ReadBooksFromTestData()
         {
             string[] booksLines = ReadJsonObjects("books.json");
-            var books = booksLines.Select(bookJson => JsonConvert.DeserializeObject<Book>(bookJson));
+            var books = booksLines.Select(bookJson => BsonSerializer.Deserialize<BsonDocument>(bookJson));
             return books;
         }
 
@@ -48,5 +49,10 @@ namespace MongoDB.Migrations.Tool.Context
         }
 
         public IMongoCollection<Book> Books => db.GetCollection<Book>("books");
+
+        public void InitMigrations()
+        {
+            MongoMigrationClient.Initialize(client, new LightInjectAdapter(new LightInject.ServiceContainer()));
+        }
     }
 }
