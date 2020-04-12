@@ -12,7 +12,7 @@ using Xunit;
 
 namespace MongoSchemaMigration
 {
-    public class MigrationTests : IClassFixture<MongoDbFixture>
+    public class MigrationTests
     {
 
         [Fact]
@@ -76,18 +76,5 @@ namespace MongoSchemaMigration
             }
         }
         #endregion
-    }
-
-
-    public class MongoDbFixture : IDisposable
-    {
-        public MongoDbFixture()
-        {
-        }
-
-        public void Dispose()
-        {
-            // Do "global" teardown here; Only called once.
-        }
     }
 }
